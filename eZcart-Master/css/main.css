@@ -3330,3 +3330,65 @@ input.num-product::-webkit-inner-spin-button {
   }
 
 }
+ 
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* Search Container */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 40px; /* Start as icon-only */
+  transition: width 0.4s ease-in-out;
+  overflow: hidden;
+}
+
+/* Collapsed Search Input */
+.search-input {
+  width: 0;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 20px;
+  background-color: white;
+  color: black;
+  opacity: 0;
+  transform: scaleX(0); /* Compressed animation */
+  transform-origin: right; /* Shrinks toward the icon */
+  transition: transform 0.4s ease-in-out, opacity 0.2s ease-out;
+  font-size: 16px;
+}
+
+/* Expanded Input */
+.search-container.expanded .search-input {
+  width: 100%; /* Input expands to fill the container */
+  padding: 0 15px;
+  opacity: 1;
+  transform: scaleX(1); /* Expand animation */
+  transform-origin: left; /* Expand outward from the icon */
+  border: 2px solid #ccc;
+  outline: none;
+  transition: transform 0.4s ease-in-out, opacity 0.2s ease-in;
+}
+
+/* Placeholder Styling */
+.search-input::placeholder {
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* Search Icon */
+.search-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: black; /* Set the icon color to black */
+  font-size: 28px; /* Make the icon larger */
+  z-index: 1;
+}
+
+/* Expanded Search Container */
+.search-container.expanded {
+  width: 250px; /* Expand width smoothly */
+  transition: width 0.4s ease-in-out;
+}
+

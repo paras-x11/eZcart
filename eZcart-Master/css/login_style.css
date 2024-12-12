@@ -45,8 +45,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #1d1d1d;
+	background-color: #1d1d1d;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -172,9 +172,13 @@ input {
 }
 
 .overlay {
-	background: #FF416C;
+	background: #232526;  
+	background: -webkit-linear-gradient(to left, #414345, #232526);
+	background: linear-gradient(to left, #414345, #232526);
+
+	/* background: #FF416C;
 	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: linear-gradient(to right, #FF4B2B, #FF416C); */
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -248,12 +252,23 @@ input {
 	/* font-family: 'Montserrat', sans-serif; */
 	/* font-weight: bold; */
 	padding: 10px 20px;
-	background-color: #fc3310;
+	background: #1d1d1d;  
+	/* background: -webkit-linear-gradient(to left, #414345, #232526);
+	background: linear-gradient(to left, #414345, #232526); */
+
 	color: white;
 	border-radius: 5px;
 	font-size: 16px;
 	transition: background-color 0.3s;
 }
 .btn:hover {
-	background-color: #ee1c00;
+	background-color: #000000;
 }
+
+/* for password error shows */
+.error {
+	color: red;
+	font-size: 0.7em;
+	margin-top: 1px;
+	margin-bottom: 3px;
+  }
