@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head> 
-	<title>Product</title>
+	<title>Checkout</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -35,6 +35,7 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
     <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="css/checkout_responsive.css">
 <!--===============================================================================================-->
 </head>
 <body class="animsition">
@@ -317,11 +318,21 @@
 							<div>
 								<input type="radio" id="radio_payment_1" name="regular_radio" class="regular_radio">
 								<label for="radio_payment_1">cash on delivery</label>
+								<div class="cash on delivery"><a href="#"><img src="images/icons/cod.png" alt=""></a></div>
 							</div>
 							<div>
-								<input type="radio" id="radio_payment_2" name="regular_radio" class="regular_radio" checked>
+								<input type="radio" id="radio_payment_1" name="regular_radio" class="regular_radio" checked>
+								<label for="radio_payment_1">UPI</label>
+								<div class="cash on delivery"><a href="#"><img src="images/icons/upi.png" alt=""></a></div>
+							</div>
+							<div>
+								<input type="radio" id="radio_payment_2" name="regular_radio" class="regular_radio" >
 								<label for="radio_payment_2">paypal</label>
 								<div class="visa payment_option"><a href="#"><img src="images/icons/icon-pay-01.png" alt=""></a></div>
+							</div>
+							<div>
+								<input type="radio" id="radio_payment_3" name="regular_radio" class="regular_radio">
+								<label for="radio_payment_3">Master Card</label>
 								<div class="master payment_option"><a href="#"><img src="images/icons/icon-pay-03.png" alt=""></a></div>
 							</div>
 							<button class="cart_total_button">place order</button>
