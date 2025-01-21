@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Features{% endblock title %}
+
+{% block links %}
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/features.css' %}" rel="stylesheet">
+    <!-- Font Awesome (for icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+{% endblock links %}
+
+{% block body %}
+    <section class="features-section py-5">
+        <h1 class="features-heading text-center mb-5">Our Features</h1>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature card shadow-sm">
+                        <div class="feature-icon card-body text-center">
+                            <i class="fas fa-sitemap fa-3x text-success"></i> <!-- Changed color to success -->
+                        </div>
+                        <div class="card-footer text-center">
+                            <h2 class="feature-title">Easy Navigation</h2>
+                            <p class="feature-description">Browse through categories with ease.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature card shadow-sm">
+                        <div class="feature-icon card-body text-center">
+                            <i class="fas fa-search fa-3x text-warning"></i> <!-- Changed color to warning -->
+                        </div>
+                        <div class="card-footer text-center">
+                            <h2 class="feature-title">Advanced Search</h2>
+                            <p class="feature-description">Filter products by price, brand, and more.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature card shadow-sm">
+                        <div class="feature-icon card-body text-center">
+                            <i class="fas fa-lock fa-3x text-danger"></i> <!-- Changed color to danger -->
+                        </div>
+                        <div class="card-footer text-center">
+                            <h2 class="feature-title">Secure Payments</h2>
+                            <p class="feature-description">Multiple payment options with top-notch security.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature card shadow-sm">
+                        <div class="feature-icon card-body text-center">
+                            <i class="fas fa-truck fa-3x text-info"></i> <!-- Changed color to info -->
+                        </div>
+                        <div class="card-footer text-center">
+                            <h2 class="feature-title">Fast Delivery</h2>
+                            <p class="feature-description">Get your orders delivered quickly and reliably.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature card shadow-sm">
+                        <div class="feature-icon card-body text-center">
+                            <i class="fas fa-star fa-3x text-primary"></i> <!-- Changed color to primary -->
+                        </div>
+                        <div class="card-footer text-center">
+                            <h2 class="feature-title">Customer Reviews</h2>
+                            <p class="feature-description">Trusted by thousands of happy customers.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature card shadow-sm">
+                        <div class="feature-icon card-body text-center">
+                            <i class="fas fa-tags fa-3x text-success"></i> <!-- Changed color to success -->
+                        </div>
+                        <div class="card-footer text-center">
+                            <h2 class="feature-title">Exciting Offers</h2>
+                            <p class="feature-description">Enjoy discounts and special deals every day.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature card shadow-sm">
+                        <div class="feature-icon card-body text-center">
+                            <i class="fas fa-book fa-3x text-warning"></i> <!-- Changed color to warning -->
+                        </div>
+                        <div class="card-footer text-center">
+                            <h2 class="feature-title">Wishlist</h2>
+                            <p class="feature-description">Save your favorite products for later.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="feature card shadow-sm">
+                        <div class="feature-icon card-body text-center">
+                            <i class="fas fa-headset fa-3x text-info"></i> <!-- Changed color to info -->
+                        </div>
+                        <div class="card-footer text-center">
+                            <h2 class="feature-title">24/7 Support</h2>
+                            <p class="feature-description">Get help whenever you need it through live chat.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock body %}
+
+{% block js %}
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+{% endblock js %}
