@@ -43,7 +43,7 @@
 	
 	{% block header %}
 	<!-- Header -->
-	<header class="{% if not is_index %} header-v4 {% endif %}">
+	<header class="header-v4">
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
@@ -73,7 +73,7 @@
 				</div>
 			</div>
 
-			<div class="wrap-menu-desktop {% if not is_index %} how-shadow1 {% endif %}">
+			<div class="wrap-menu-desktop how-shadow1">
 				<nav class="limiter-menu-desktop container">
 					
 					<!-- Logo desktop -->		
@@ -84,27 +84,31 @@
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
-							<li class="{% if request.path == '/index' or request.path == '/' %}active-menu{% endif %}">
-								<a href="{% url 'index' %}">Home</a>
+							<li>
+								<a href="{% url 'index'%}">Home</a>
 							</li>
-							<li class="{% if request.path == '/shop' %}active-menu{% endif %}">
-								<a href="{% url 'shop' %}">Shop</a>
+
+							<li>
+								<a href="{% url 'shop'%}">Shop</a>
 							</li>
-							<li class="label1 {% if request.path == '/features' %}active-menu{% endif %}" data-label1="hot">
-								<a href="{% url 'features' %}">Features</a>
+
+							<li class="label1" data-label1="hot">
+								<a href="{% url 'features'%}">Features</a>
 							</li>
-							<li class="{% if request.path == '/blog' %}active-menu{% endif %}">
-								<a href="{% url 'blog' %}">Blog</a>
+
+							<li>
+								<a href="{% url 'blog'%}">Blog</a>
 							</li>
-							<li class="{% if request.path == '/about' %}active-menu{% endif %}">
-								<a href="{% url 'about' %}">About</a>
+
+							<li>
+								<a href="{% url 'about'%}">About</a>
 							</li>
-							<li class="{% if request.path == '/contact' %}active-menu{% endif %}">
-								<a href="{% url 'contact' %}">Contact</a>
+
+							<li>
+								<a href="{% url 'contact'%}">Contact</a>
 							</li>
 						</ul>
-					</div>
-						
+					</div>	
 
 					 <!-- Icon header -->
                      <div class="wrap-icon-header flex-w flex-r-m">
@@ -177,7 +181,7 @@
 							Help & FAQs
 						</a>
 
-						<a href="login" class="flex-c-m p-lr-10 trans-04">
+						<a href="#" class="flex-c-m p-lr-10 trans-04">
 							My Account
 						</a>
 

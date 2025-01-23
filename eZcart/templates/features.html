@@ -5,26 +5,23 @@
 {% block title %}Features{% endblock title %}
 
 {% block links %}
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
     <link href="{% static 'css/features.css' %}" rel="stylesheet">
-    <!-- Font Awesome (for icons) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
 {% endblock links %}
 
 {% block body %}
     <section class="features-section py-5">
-        <h1 class="features-heading text-center mb-5">Our Features</h1>
+        <h1 class="features-heading text-center mb-5" style="font-weight: bold; color: rgb(39, 37, 37);">Our Features</h1>
         <div class="container">
             <div class="row">
 
                 <div class="col-md-3 mb-4">
                     <div class="feature card shadow-sm">
                         <div class="feature-icon card-body text-center">
-                            <i class="fas fa-sitemap fa-3x text-success"></i> <!-- Changed color to success -->
+                            <span class="material-icons text-success" style="font-size: 4rem; font-weight: bold;">directions</span> 
                         </div>
                         <div class="card-footer text-center">
-                            <h2 class="feature-title">Easy Navigation</h2>
+                            <h2 class="feature-title font-weight-bold">Easy Navigation</h2>
                             <p class="feature-description">Browse through categories with ease.</p>
                         </div>
                     </div>
@@ -33,10 +30,10 @@
                 <div class="col-md-3 mb-4">
                     <div class="feature card shadow-sm">
                         <div class="feature-icon card-body text-center">
-                            <i class="fas fa-search fa-3x text-warning"></i> <!-- Changed color to warning -->
+                            <span class="material-icons text-warning" style="font-size: 4rem; font-weight: bold;">search</span> 
                         </div>
                         <div class="card-footer text-center">
-                            <h2 class="feature-title">Advanced Search</h2>
+                            <h2 class="feature-title font-weight-bold">Advanced Search</h2>
                             <p class="feature-description">Filter products by price, brand, and more.</p>
                         </div>
                     </div>
@@ -45,10 +42,10 @@
                 <div class="col-md-3 mb-4">
                     <div class="feature card shadow-sm">
                         <div class="feature-icon card-body text-center">
-                            <i class="fas fa-lock fa-3x text-danger"></i> <!-- Changed color to danger -->
+                            <span class="material-icons text-danger" style="font-size: 4rem; font-weight: bold;">lock</span> 
                         </div>
                         <div class="card-footer text-center">
-                            <h2 class="feature-title">Secure Payments</h2>
+                            <h2 class="feature-title font-weight-bold">Secure Payments</h2>
                             <p class="feature-description">Multiple payment options with top-notch security.</p>
                         </div>
                     </div>
@@ -57,10 +54,10 @@
                 <div class="col-md-3 mb-4">
                     <div class="feature card shadow-sm">
                         <div class="feature-icon card-body text-center">
-                            <i class="fas fa-truck fa-3x text-info"></i> <!-- Changed color to info -->
+                            <span class="material-icons text-info" style="font-size: 4rem; font-weight: bold;">local_shipping</span> 
                         </div>
                         <div class="card-footer text-center">
-                            <h2 class="feature-title">Fast Delivery</h2>
+                            <h2 class="feature-title font-weight-bold">Fast Delivery</h2>
                             <p class="feature-description">Get your orders delivered quickly and reliably.</p>
                         </div>
                     </div>
@@ -69,10 +66,10 @@
                 <div class="col-md-3 mb-4">
                     <div class="feature card shadow-sm">
                         <div class="feature-icon card-body text-center">
-                            <i class="fas fa-star fa-3x text-primary"></i> <!-- Changed color to primary -->
+                            <span class="material-icons text-primary" style="font-size: 4rem; font-weight: bold;">star</span> 
                         </div>
                         <div class="card-footer text-center">
-                            <h2 class="feature-title">Customer Reviews</h2>
+                            <h2 class="feature-title font-weight-bold">Customer Reviews</h2>
                             <p class="feature-description">Trusted by thousands of happy customers.</p>
                         </div>
                     </div>
@@ -81,10 +78,10 @@
                 <div class="col-md-3 mb-4">
                     <div class="feature card shadow-sm">
                         <div class="feature-icon card-body text-center">
-                            <i class="fas fa-tags fa-3x text-success"></i> <!-- Changed color to success -->
+                            <span class="material-icons text-success" style="font-size: 4rem; font-weight: bold;">price_check</span> 
                         </div>
                         <div class="card-footer text-center">
-                            <h2 class="feature-title">Exciting Offers</h2>
+                            <h2 class="feature-title font-weight-bold">Exciting Offers</h2>
                             <p class="feature-description">Enjoy discounts and special deals every day.</p>
                         </div>
                     </div>
@@ -93,10 +90,10 @@
                 <div class="col-md-3 mb-4">
                     <div class="feature card shadow-sm">
                         <div class="feature-icon card-body text-center">
-                            <i class="fas fa-book fa-3x text-warning"></i> <!-- Changed color to warning -->
+                            <span class="material-icons text-warning" style="font-size: 4rem; font-weight: bold;">bookmark</span> 
                         </div>
                         <div class="card-footer text-center">
-                            <h2 class="feature-title">Wishlist</h2>
+                            <h2 class="feature-title font-weight-bold">Wishlist</h2>
                             <p class="feature-description">Save your favorite products for later.</p>
                         </div>
                     </div>
@@ -105,10 +102,10 @@
                 <div class="col-md-3 mb-4">
                     <div class="feature card shadow-sm">
                         <div class="feature-icon card-body text-center">
-                            <i class="fas fa-headset fa-3x text-info"></i> <!-- Changed color to info -->
+                            <span class="material-icons text-info" style="font-size: 4rem; font-weight: bold;">headset_mic</span> 
                         </div>
                         <div class="card-footer text-center">
-                            <h2 class="feature-title">24/7 Support</h2>
+                            <h2 class="feature-title font-weight-bold">24/7 Support</h2>
                             <p class="feature-description">Get help whenever you need it through live chat.</p>
                         </div>
                     </div>
@@ -117,11 +114,95 @@
             </div>
         </div>
     </section>
+    <!-- Cart -->
+	<div class="wrap-header-cart js-panel-cart">
+		<div class="s-full js-hide-cart"></div>
+
+		<div class="header-cart flex-col-l p-l-65 p-r-25">
+			<div class="header-cart-title flex-w flex-sb-m p-b-8">
+				<span class="mtext-103 cl2">
+					Your Cart
+				</span>
+
+				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+					<i class="zmdi zmdi-close"></i>
+				</div>
+			</div>
+			
+			<div class="header-cart-content flex-w js-pscroll">
+				<ul class="header-cart-wrapitem w-full">
+					<li class="header-cart-item flex-w flex-t m-b-12">
+						<div class="header-cart-item-img">
+							<img src="images/item-cart-01.jpg" alt="IMG">
+						</div>
+
+						<div class="header-cart-item-txt p-t-8">
+							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+								White Shirt Pleat
+							</a>
+
+							<span class="header-cart-item-info">
+								1 x $19.00
+							</span>
+						</div>
+					</li>
+
+					<li class="header-cart-item flex-w flex-t m-b-12">
+						<div class="header-cart-item-img">
+							<img src="images/item-cart-02.jpg" alt="IMG">
+						</div>
+
+						<div class="header-cart-item-txt p-t-8">
+							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+								Converse All Star
+							</a>
+
+							<span class="header-cart-item-info">
+								1 x $39.00
+							</span>
+						</div>
+					</li>
+
+					<li class="header-cart-item flex-w flex-t m-b-12">
+						<div class="header-cart-item-img">
+							<img src="images/item-cart-03.jpg" alt="IMG">
+						</div>
+
+						<div class="header-cart-item-txt p-t-8">
+							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+								Nixon Porter Leather
+							</a>
+
+							<span class="header-cart-item-info">
+								1 x $17.00
+							</span>
+						</div>
+					</li>
+				</ul>
+				
+				<div class="w-full">
+					<div class="header-cart-total w-full p-tb-40">
+						Total: $75.00
+					</div>
+
+					<div class="header-cart-buttons flex-w w-full">
+						<a href="shoping-cart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+							View Cart
+						</a>
+
+						<a href="checkout" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+							Check Out
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock body %}
 
 {% block js %}
     <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    {% comment %} <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> {% endcomment %}
+    {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> {% endcomment %}
+    {% comment %} <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script> {% endcomment %}
 {% endblock js %}

@@ -6,6 +6,7 @@
 .features-heading {
     font-size: 2.5rem;
     margin-bottom: 40px;
+    font-weight: bold;  /* Make heading bold */
 }
 
 .feature {
@@ -22,19 +23,21 @@
 }
 
 .feature-icon {
-    font-size: 3rem;
+    font-size: 4rem;  /* Make icon larger */
     color: #007bff;
     margin-bottom: 15px;
 }
 
 .feature-title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;  /* Increase font size for titles */
     margin-bottom: 10px;
+    font-weight: bold;  /* Make title bold */
 }
 
 .feature-description {
     font-size: 1rem;
     color: #555;
+    font-weight: bold;  /* Make description bold */
 }
 
 .card-footer {
@@ -65,3 +68,4 @@
 .icon-info {
     color: #17a2b8;
 }
+

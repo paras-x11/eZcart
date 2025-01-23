@@ -23,6 +23,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.index, name="index"),
     path('index', views.index, name="index"),
+    path('home2', views.home2, name="home2"),
+    path('home3', views.home3, name="home3"),
     path('shop', views.shop, name="shop"),
     path('shoping-cart', views.shoping_cart, name="shoping-cart"),
     path('product-detail', views.product_detail, name="product-detail"),
@@ -31,6 +33,8 @@ urlpatterns = [
     path('blog-detail', views.blog_detail, name="blog-detail"),
     path('about', views.about, name="about"),
     path('contact', views.contact, name="contact"),
+    path('checkout', views.checkout, name="checkout"),
+    path('login', views.login_user, name="login"),
 ]
 
 if settings.DEBUG:

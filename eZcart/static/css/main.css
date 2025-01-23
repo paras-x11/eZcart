@@ -2898,6 +2898,12 @@ input.num-product::-webkit-inner-spin-button {
   -ms-box-shadow: 0 0px 3px 0px rgba(0,0,0,0.2);
 }
 
+.no-border {
+  box-shadow: none;
+  border-bottom: none;
+}
+
+
 /*---------------------------------------------*/
 .how-pos1 {
   position: absolute;

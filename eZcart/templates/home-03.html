@@ -1,11 +1,134 @@
 {% extends "base.html" %}
 
-{% load static %}
-
-{% block title %}Home{% endblock title %}
-	
+{% block title %} Home 3 {% endblock title %}
 
 {% block body %}
+	<!-- Sidebar -->
+	<aside class="wrap-sidebar js-sidebar">
+		<div class="s-full js-hide-sidebar"></div>
+
+		<div class="sidebar flex-col-l p-t-22 p-b-25">
+			<div class="flex-r w-full p-b-30 p-r-27">
+				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-sidebar">
+					<i class="zmdi zmdi-close"></i>
+				</div>
+			</div>
+
+			<div class="sidebar-content flex-w w-full p-lr-65 js-pscroll">
+				<ul class="sidebar-link w-full">
+					<li class="p-b-13">
+						<a href="index.html" class="stext-102 cl2 hov-cl1 trans-04">
+							Home
+						</a>
+					</li>
+
+					<li class="p-b-13">
+						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+							My Wishlist
+						</a>
+					</li>
+
+					<li class="p-b-13">
+						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+							My Account
+						</a>
+					</li>
+
+					<li class="p-b-13">
+						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+							Track Oder
+						</a>
+					</li>
+
+					<li class="p-b-13">
+						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+							Refunds
+						</a>
+					</li>
+
+					<li class="p-b-13">
+						<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+							Help & FAQs
+						</a>
+					</li>
+				</ul>
+
+				<div class="sidebar-gallery w-full p-tb-30">
+					<span class="mtext-101 cl5">
+						@ eZcart
+					</span>
+
+					<div class="flex-w flex-sb p-t-36 gallery-lb">
+						<!-- item gallery sidebar -->
+						<div class="wrap-item-gallery m-b-10">
+							<a class="item-gallery bg-img1" href="images/gallery-01.jpg" data-lightbox="gallery" 
+							style="background-image: url('images/gallery-01.jpg');"></a>
+						</div>
+
+						<!-- item gallery sidebar -->
+						<div class="wrap-item-gallery m-b-10">
+							<a class="item-gallery bg-img1" href="images/gallery-02.jpg" data-lightbox="gallery" 
+							style="background-image: url('images/gallery-02.jpg');"></a>
+						</div>
+
+						<!-- item gallery sidebar -->
+						<div class="wrap-item-gallery m-b-10">
+							<a class="item-gallery bg-img1" href="images/gallery-03.jpg" data-lightbox="gallery" 
+							style="background-image: url('images/gallery-03.jpg');"></a>
+						</div>
+
+						<!-- item gallery sidebar -->
+						<div class="wrap-item-gallery m-b-10">
+							<a class="item-gallery bg-img1" href="images/gallery-04.jpg" data-lightbox="gallery" 
+							style="background-image: url('images/gallery-04.jpg');"></a>
+						</div>
+
+						<!-- item gallery sidebar -->
+						<div class="wrap-item-gallery m-b-10">
+							<a class="item-gallery bg-img1" href="images/gallery-05.jpg" data-lightbox="gallery" 
+							style="background-image: url('images/gallery-05.jpg');"></a>
+						</div>
+
+						<!-- item gallery sidebar -->
+						<div class="wrap-item-gallery m-b-10">
+							<a class="item-gallery bg-img1" href="images/gallery-06.jpg" data-lightbox="gallery" 
+							style="background-image: url('images/gallery-06.jpg');"></a>
+						</div>
+
+						<!-- item gallery sidebar -->
+						<div class="wrap-item-gallery m-b-10">
+							<a class="item-gallery bg-img1" href="images/gallery-07.jpg" data-lightbox="gallery" 
+							style="background-image: url('images/gallery-07.jpg');"></a>
+						</div>
+
+						<!-- item gallery sidebar -->
+						<div class="wrap-item-gallery m-b-10">
+							<a class="item-gallery bg-img1" href="images/gallery-08.jpg" data-lightbox="gallery" 
+							style="background-image: url('images/gallery-08.jpg');"></a>
+						</div>
+
+						<!-- item gallery sidebar -->
+						<div class="wrap-item-gallery m-b-10">
+							<a class="item-gallery bg-img1" href="images/gallery-09.jpg" data-lightbox="gallery" 
+							style="background-image: url('images/gallery-09.jpg');"></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="sidebar-gallery w-full">
+					<span class="mtext-101 cl5">
+						About Us
+					</span>
+
+					<p class="stext-108 cl6 p-t-27">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur maximus vulputate hendrerit. Praesent faucibus erat vitae rutrum gravida. Vestibulum tempus mi enim, in molestie sem fermentum quis. 
+					</p>
+				</div>
+			</div>
+		</div>
+	</aside>
+
+
 	<!-- Cart -->
 	<div class="wrap-header-cart js-panel-cart">
 		<div class="s-full js-hide-cart"></div>
@@ -78,11 +201,11 @@
 					</div>
 
 					<div class="header-cart-buttons flex-w w-full">
-						<a href="shoping-cart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+						<a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
 							View Cart
 						</a>
 
-						<a href="checkout" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						<a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
 							Check Out
 						</a>
 					</div>
@@ -92,27 +215,28 @@
 	</div>
 
 
+
 	<!-- Slider -->
 	<section class="section-slide">
-		<div class="wrap-slick1">
+		<div class="wrap-slick1 rs2-slick1">
 			<div class="slick1">
-				<div class="item-slick1" style="background-image: url(images/slide-01.jpg);">
+				<div class="item-slick1 bg-overlay1" style="background-image: url(images/slide-05.jpg);" data-thumb="images/thumb-01.jpg" data-caption="Women’s Wear">
 					<div class="container h-full">
-						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-								<span class="ltext-101 cl2 respon2">
+								<span class="ltext-202 txt-center cl0 respon2">
 									Women Collection 2025
 								</span>
 							</div>
 								
 							<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
-								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
-									NEW SEASON
+								<h2 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
+									New arrivals
 								</h2>
 							</div>
 								
 							<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-								<a href="shop" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
 									Shop Now
 								</a>
 							</div>
@@ -120,23 +244,23 @@
 					</div>
 				</div>
 
-				<div class="item-slick1" style="background-image: url(images/slide-02.jpg);">
+				<div class="item-slick1 bg-overlay1" style="background-image: url(images/slide-06.jpg);" data-thumb="images/thumb-02.jpg" data-caption="Men’s Wear">
 					<div class="container h-full">
-						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
-								<span class="ltext-101 cl2 respon2">
+								<span class="ltext-202 txt-center cl0 respon2">
 									Men New-Season
 								</span>
 							</div>
 								
 							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
-								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+								<h2 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
 									Jackets & Coats
 								</h2>
 							</div>
 								
 							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
-								<a href="shop" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
 									Shop Now
 								</a>
 							</div>
@@ -144,23 +268,23 @@
 					</div>
 				</div>
 
-				<div class="item-slick1" style="background-image: url(images/slide-03.jpg);">
+				<div class="item-slick1 bg-overlay1" style="background-image: url(images/slide-07.jpg);" data-thumb="images/thumb-03.jpg" data-caption="Men’s Wear">
 					<div class="container h-full">
-						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
-								<span class="ltext-101 cl2 respon2">
+								<span class="ltext-202 txt-center cl0 respon2">
 									Men Collection 2025
 								</span>
 							</div>
 								
 							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
-								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
-									New arrivals
+								<h2 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
+									NEW SEASON
 								</h2>
 							</div>
 								
 							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
-								<a href="shop" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
 									Shop Now
 								</a>
 							</div>
@@ -168,12 +292,14 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="wrap-slick1-dots p-lr-10"></div>
 		</div>
 	</section>
 
 
 	<!-- Banner -->
-	<div class="sec-banner bg0 p-t-80 p-b-50">
+	<div class="sec-banner bg0 p-t-95 p-b-55">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 p-b-30 m-lr-auto">
@@ -181,7 +307,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="images/banner-04.jpg" alt="IMG-BANNER">
 
-						<a href="shop" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									Women
@@ -206,7 +332,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="images/banner-05.jpg" alt="IMG-BANNER">
 
-						<a href="shop" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									Men
@@ -231,7 +357,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="images/banner-07.jpg" alt="IMG-BANNER">
 
-						<a href="shop" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									Watches
@@ -256,7 +382,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="images/banner-08.jpg" alt="IMG-BANNER">
 
-						<a href="shop" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									Bags
@@ -281,7 +407,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="images/banner-09.jpg" alt="IMG-BANNER">
 
-						<a href="shop" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									Accessories
@@ -306,7 +432,7 @@
 
 
 	<!-- Product -->
-	<section class="bg0 p-t-23 p-b-140">
+	<section class="bg0 p-t-23 p-b-130">
 		<div class="container">
 			<div class="p-b-10">
 				<h3 class="ltext-103 cl5">
@@ -560,7 +686,7 @@
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 					<!-- Block2 -->
 					<div class="block2">
-						<div class="block2-pic hov-img0">
+						<div class="block2-pic hov-img0 label-new" data-label="New">
 							<img src="images/women/women-01.jpg" alt="IMG-PRODUCT">
 
 							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
@@ -570,7 +696,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Esprit Ruffle Shirt
 								</a>
 
@@ -602,7 +728,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Herschel supply
 								</a>
 
@@ -634,7 +760,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Only Check Trouser
 								</a>
 
@@ -666,7 +792,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Classic Trench Coat
 								</a>
 
@@ -698,7 +824,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Front Pocket Jumper
 								</a>
 
@@ -730,7 +856,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Vintage Inspired Classic 
 								</a>
 
@@ -762,7 +888,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Shirt in Stretch Cotton
 								</a>
 
@@ -794,7 +920,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Pieces Metallic Printed
 								</a>
 
@@ -826,7 +952,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Converse All Star Hi Plimsolls
 								</a>
 
@@ -858,7 +984,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Femme T-Shirt In Stripe
 								</a>
 
@@ -890,7 +1016,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Herschel supply 
 								</a>
 
@@ -922,7 +1048,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Herschel supply
 								</a>
 
@@ -954,7 +1080,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									T-Shirt with Sleeve
 								</a>
 
@@ -986,7 +1112,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Pretty Little Thing
 								</a>
 
@@ -1018,7 +1144,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Mini Silver Mesh Watch
 								</a>
 
@@ -1050,7 +1176,7 @@
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									Square Neck Back
 								</a>
 
@@ -1070,10 +1196,14 @@
 				</div>
 			</div>
 
-			<!-- Load more -->
-			<div class="flex-c-m flex-w w-full p-t-45">
-				<a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-					Load More
+			<!-- Pagination -->
+			<div class="flex-c-m flex-w w-full p-t-38">
+				<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+					1
+				</a>
+
+				<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7">
+					2
 				</a>
 			</div>
 		</div>
