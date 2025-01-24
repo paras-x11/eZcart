@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Helps & FAQs | eZcart</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Body setup */
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #ffffff; /* White background */
+        margin: 0;
+        padding: 0;
+        color: #000000; /* Black text for better readability */
+      }
+
+      /* Header setup */
+      header {
+        background: #f8f9fa; /* Light gray background for header */
+        padding: 20px 10px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Navigation Bar */
+      .navbar .logo {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #000; /* Black font for logo */
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: inline-block;
+        position: relative;
+      }
+
+      .navbar .logo span {
+        color: #ff4081; /* Highlighted logo text */
+      }
+
+      /* Helps & FAQs Text under Logo */
+      .helps-faqs {
+        font-size: 0.9rem;
+        font-weight: 400;
+        color: #555; /* Medium gray text for secondary text */
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0px;
+        font-style: normal;
+        text-align: center;
+        padding: 0px 0;
+      }
+
+      /* Hero section for Helps & FAQs */
+      .hero {
+        background-color: #f8f9fa; /* Light gray */
+        padding: 40px;
+        color: #000; /* Black font for hero text */
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+      }
+
+      /* Content */
+      .container {
+        max-width: 90%;
+        margin: 30px auto;
+        background-color: #ffffff; /* White background for content */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .back-to-home {
+        display: inline-block;
+        background-color: #007bff; /* Bright blue background */
+        color: white; /* White text */
+        padding: 10px 18px;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .back-to-home:hover {
+        background-color: rgb(0, 0, 255); /* Darker blue on hover */
+        color: white; /* Ensure text remains white */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+      }
+
+      .faq-item {
+        border-bottom: 1px solid #ddd;
+        padding: 12px 0;
+        margin: 4px 0; /* Add spacing for hover effect */
+        transition: background-color 0.3s ease, border-radius 0.3s ease,
+          padding 0.3s ease;
+      }
+
+      .faq-item:last-child {
+        border-bottom: none;
+      }
+
+      .faq-item:hover {
+        background-color: #f1f1f1; /* Light hover effect */
+        border-radius: 8px; /* Rounded corners for FAQ items on hover */
+        padding: 14px 10px; /* Slightly increase padding to broaden the hover area */
+        margin: 2px 0; /* Slight spacing for the hover effect */
+      }
+
+      .faq-item h3 {
+        font-size: 1.1rem;
+        margin: 0;
+        cursor: pointer;
+        color: #000; /* Black text for FAQ questions */
+        font-weight: 500;
+      }
+
+      .faq-item .arrow {
+        font-size: 1rem;
+        color: #555; /* Medium gray arrow */
+        margin-left: 10px;
+        transition: transform 0.3s ease;
+      }
+
+      .faq-answer {
+        display: none;
+        padding: 8px 0 12px;
+        font-size: 0.9rem;
+        color: #333; /* Dark gray text for FAQ answers */
+        line-height: 1.6;
+        border-top: 1px solid #ddd;
+      }
+
+      a {
+        color: #007bff; /* Blue links */
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+        color: #0056b3;
+      }
+
+      footer {
+        text-align: center;
+        padding: 10px 0;
+        background-color: #f8f9fa;
+        color: #555; /* Medium gray text for footer */
+        font-size: 0.85rem;
+      }
+
+      footer a {
+        color: #007bff; /* Blue links in footer */
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+        color: #0056b3;
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        .container {
+          max-width: 95%;
+          padding: 15px;
+        }
+
+        .navbar .logo {
+          font-size: 2rem;
+        }
+
+        .faq-item h3 {
+          font-size: 1rem;
+        }
+
+        .back-to-home {
+          font-size: 0.9rem;
+          padding: 8px 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- Navigation Bar -->
+      <div class="navbar">
+        <div class="logo">e<span>Z</span>cart</div>
+      </div>
+      <div class="helps-faqs">Helps & FAQs</div>
+    </header>
+
+    <div class="container">
+      <a href="index" class="back-to-home">Back to Home</a>
+
+      <div class="faq-item">
+        <h3>How do I create an account? <i class="arrow">&#9660;</i></h3>
+        <div class="faq-answer">
+          To create an account, simply click the "Sign Up" button on the
+          homepage. Enter your details, and you’ll be able to start shopping
+          with us right away!
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is the return policy? <i class="arrow">&#9660;</i></h3>
+        <div class="faq-answer">
+          We offer a 30-day return policy on most items. Please ensure products
+          are in their original condition. Check our
+          <a href="#">Return Policy</a> for full details.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3>How can I track my order? <i class="arrow">&#9660;</i></h3>
+        <div class="faq-answer">
+          Once your order is shipped, we’ll send you an email with a tracking
+          link. You can also log in to your account to check the status of your
+          order.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3>
+          What payment methods do you accept? <i class="arrow">&#9660;</i>
+        </h3>
+        <div class="faq-answer">
+          We accept major credit and debit cards, PayPal, and several other
+          online payment methods. Visit our
+          <a href="#">Payment Information</a> page for details.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3>
+          Can I change my order after placing it? <i class="arrow">&#9660;</i>
+        </h3>
+        <div class="faq-answer">
+          Unfortunately, once an order is confirmed, it cannot be modified.
+          However, you can cancel it within 30 minutes of placing it. Please
+          visit our <a href="#">Order Cancellation</a> page for more
+          information.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3>How can I reset my password? <i class="arrow">&#9660;</i></h3>
+        <div class="faq-answer">
+          If you've forgotten your password, click the "Forgot Password" link on
+          the login page. We'll send you an email with instructions to reset it.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3>
+          What if my item is damaged or defective? <i class="arrow">&#9660;</i>
+        </h3>
+        <div class="faq-answer">
+          We're sorry to hear that! Please contact our customer support team
+          immediately with photos of the damaged or defective item, and we'll
+          arrange for a replacement or refund.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3>
+          Do you offer international shipping? <i class="arrow">&#9660;</i>
+        </h3>
+        <div class="faq-answer">
+          Yes, we offer international shipping to select countries. Shipping
+          fees and delivery times vary depending on the destination. For more
+          details, visit our <a href="#">Shipping Information</a> page.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I apply a discount code? <i class="arrow">&#9660;</i></h3>
+        <div class="faq-answer">
+          During checkout, you can enter your discount code in the "Promo Code"
+          field. Your total will be updated immediately. Please note that some
+          codes may have restrictions or expiration dates.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h3>
+          How can I contact customer support? <i class="arrow">&#9660;</i>
+        </h3>
+        <div class="faq-answer">
+          You can reach our customer support team by visiting the
+          <a href="contact">Contact Us</a> page. We're available via phone,
+          email, or live chat to assist you with any questions or concerns.
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Need more help? <a href="contact">Contact Us</a></p>
+    </footer>
+
+    <script>
+      const faqItems = document.querySelectorAll(".faq-item h3");
+
+      faqItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          const answer = item.nextElementSibling;
+          const arrow = item.querySelector(".arrow");
+
+          if (answer.style.display === "block") {
+            answer.style.display = "none";
+            arrow.innerHTML = "&#9660;"; // Down arrow
+            arrow.style.transform = "rotate(0deg)";
+          } else {
+            answer.style.display = "block";
+            arrow.innerHTML = "&#9650;"; // Up arrow
+            arrow.style.transform = "rotate(180deg)";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

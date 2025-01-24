@@ -14,6 +14,9 @@ def shop(request):
 def shoping_cart(request):
     return render(request, "shoping-cart.html")
 
+def whishlist(request):
+    return render(request, "whishlist.html")
+
 def product_detail(request):
     return render(request, "product-detail.html")
 
@@ -37,6 +40,9 @@ def checkout(request):
 
 def login_user(request):
     return render(request, "login.html")
+
+def help(request):
+    return render(request, "help.html")
 
 
 

@@ -3712,3 +3712,19 @@ iframe {border: none;}
 .pointer-none {
 	pointer-events: none;
 }
+
+
+.wishlist-item .remove-btn {
+	display: inline-block;
+	background-color: #ff4d4d;
+	color: white;
+	padding: 8px 12px;
+	text-decoration: none;
+	border-radius: 5px;
+	font-size: 0.9rem;
+	transition: background-color 0.3s ease;
+  }
+
+  .wishlist-item .remove-btn:hover {
+	background-color: #e60000;
+  }
