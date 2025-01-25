@@ -56,13 +56,37 @@
 					</div>
 
 					<div class="right-top-bar flex-w h-full">
+						<!-- {%if user.username%}
+                        <span class="flex-c-m trans-04 p-lr-25">
+                            Welcome , {{user.username}}
+                        </span>
+                        {%endif%} -->
+
 						<a href="help" class="flex-c-m trans-04 p-lr-25">
 							Help & FAQs
 						</a>
 
-						<a href="login" class="flex-c-m trans-04 p-lr-25">
-							My Account
+						{% if user.is_authenticated %}
+						<ul class="user-menu">
+							<li class="dropdown">
+								<a href="javascript:void(0);" style="color: rgb(185, 191, 191);" class="dropdown-toggle" id="userDropdown">
+									{{ user.username }}
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="{% url 'profile' %}">Your Profile</a></li>
+									<li><a href="{% url 'logout' %}">Logout</a></li>
+								</ul>
+							</li>
+						</ul>
+						{% else %}
+						<a href="{% url 'login_user' %}" class="flex-c-m trans-04 p-lr-25">
+							Login
 						</a>
+						{% endif %}
+						
+
+
+
 
 						<a href="#" class="flex-c-m trans-04 p-lr-25">
 							EN
@@ -179,7 +203,7 @@
 							Help & FAQs
 						</a>
 
-						<a href="login" class="flex-c-m p-lr-10 trans-04">
+						<a href="login_user" class="flex-c-m p-lr-10 trans-04">
 							My Account
 						</a>
 
@@ -238,6 +262,91 @@
 		</div>
 	</header>
 	{% endblock header %}
+
+	<!-- Cart -->
+	<div class="wrap-header-cart js-panel-cart">
+		<div class="s-full js-hide-cart"></div>
+
+		<div class="header-cart flex-col-l p-l-65 p-r-25">
+			<div class="header-cart-title flex-w flex-sb-m p-b-8">
+				<span class="mtext-103 cl2">
+					Your Cart
+				</span>
+
+				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+					<i class="zmdi zmdi-close"></i>
+				</div>
+			</div>
+			
+			<div class="header-cart-content flex-w js-pscroll">
+				<ul class="header-cart-wrapitem w-full">
+					<li class="header-cart-item flex-w flex-t m-b-12">
+						<div class="header-cart-item-img">
+							<img src="images/item-cart-01.jpg" alt="IMG">
+						</div>
+
+						<div class="header-cart-item-txt p-t-8">
+							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+								White Shirt Pleat
+							</a>
+
+							<span class="header-cart-item-info">
+								1 x $19.00
+							</span>
+						</div>
+					</li>
+
+					<li class="header-cart-item flex-w flex-t m-b-12">
+						<div class="header-cart-item-img">
+							<img src="images/item-cart-02.jpg" alt="IMG">
+						</div>
+
+						<div class="header-cart-item-txt p-t-8">
+							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+								Converse All Star
+							</a>
+
+							<span class="header-cart-item-info">
+								1 x $39.00
+							</span>
+						</div>
+					</li>
+
+					<li class="header-cart-item flex-w flex-t m-b-12">
+						<div class="header-cart-item-img">
+							<img src="images/item-cart-03.jpg" alt="IMG">
+						</div>
+
+						<div class="header-cart-item-txt p-t-8">
+							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+								Nixon Porter Leather
+							</a>
+
+							<span class="header-cart-item-info">
+								1 x $17.00
+							</span>
+						</div>
+					</li>
+				</ul>
+				
+				<div class="w-full">
+					<div class="header-cart-total w-full p-tb-40">
+						Total: $75.00
+					</div>
+
+					<div class="header-cart-buttons flex-w w-full">
+						<a href="shoping-cart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+							View Cart
+						</a>
+
+						<a href="checkout" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+							Check Out
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
     {% block body %}{% endblock body %}
 
@@ -509,6 +618,28 @@
 			input.focus(); // Focus on the input
 		}
 	}	
+</script>
+<!--===============================================================================================-->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const dropdownToggle = document.getElementById("userDropdown");
+		const dropdownMenu = dropdownToggle.nextElementSibling;
+
+		// Toggle dropdown visibility on click
+		dropdownToggle.addEventListener("click", function (e) {
+			e.stopPropagation(); // Prevent event bubbling
+			dropdownMenu.style.display =
+				dropdownMenu.style.display === "block" ? "none" : "block";
+		});
+
+		// Close the dropdown if clicking outside of it
+		document.addEventListener("click", function (e) {
+			// If the clicked element is not the dropdown or its children, close the menu
+			if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+				dropdownMenu.style.display = "none";
+			}
+		});
+	});
 </script>
 <!--===============================================================================================-->
 <script src="{% static 'js/main.js' %}"></script>

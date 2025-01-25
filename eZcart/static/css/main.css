@@ -1528,7 +1528,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   transition: all 0.4s;
 }
 
-button.mfp-arrow-right {
+button.mfp-arrow-right { 
   background-image: url(../images/icons/icon-next.png);
   background-position: center center;
   background-repeat: no-repeat;
@@ -3397,4 +3397,63 @@ input.num-product::-webkit-inner-spin-button {
   width: 250px; /* Expand width smoothly */
   transition: width 0.4s ease-in-out;
 }
+
+/* ----=====================================================================------ */
+/* Base styles for the dropdown container */
+.user-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.user-menu .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown toggle link */
+.user-menu .dropdown a.dropdown-toggle {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    display: block;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Dropdown menu styles */
+.user-menu .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Show below the toggle link */
+    left: 0;
+    min-width: 150px;
+    background-color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999; /* High z-index to ensure it's above other elements */
+    border-radius: 4px;
+    padding: 5px 0;
+}
+
+.user-menu .dropdown-menu li {
+    list-style: none;
+}
+
+.user-menu .dropdown-menu li a {
+    display: block;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+/* Hover effect for dropdown menu links */
+.user-menu .dropdown-menu li a:hover {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+
 

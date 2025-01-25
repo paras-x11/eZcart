@@ -6,20 +6,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login | eZcart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link rel="stylesheet" href="{%static 'css/login.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <style>
+        /* Alert Container */
+        #alert-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1050; /* Ensure it stays above other content */
+        }
+    
+        .alert-container-full .custom-alert {
+            width: 100%; /* Span full browser width */
+        }
+    
+        /* Alert Box */
+        .custom-alert {
+            margin: 10px auto;
+            max-width: 400px; /* Default width */
+            padding: 15px 20px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+    
+        /* Alert Types */
+        .custom-alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+    
+        .custom-alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+    
+        .custom-alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-color: #bee5eb;
+        }
+    
+        .custom-alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-color: #ffeeba;
+        }
+    
+        /* Dismiss Button */
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%); /* Align vertically with text */
+            background: none;
+            border: none;
+            font-size: 16px; /* Match alert text size */
+            color: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+    
+        .close-btn:hover {
+            opacity: 0.7;
+        }
+    
+        /* Fade Out Animation */
+        .fade-out {
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+    </style>
+    
 </head>
 
 <body>
-    {% if message %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            <strong>{{ message }}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        {% endfor %}
-    {% endif %}
+    <!-- Alert Container -->
+    <div id="alert-container" class="alert-container-full">
+        <!-- Dynamic Alerts Will Be Rendered Here -->
+        {% if messages %}
+            {% for message in messages %}
+            <div class="custom-alert custom-alert-{{ message.tags }}">
+                <button class="close-btn" onclick="dismissAlert(this)">&times;</button>
+                <strong>{{ message }}</strong>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
     <h2>Welcome to eZcart</h2>
     <div class="container" id="container">
         <!-- Sign-up Form -->
@@ -33,10 +119,10 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email for registration</span>
-                <input type="text" id="signupusername" placeholder="Username" required />
-                <input type="email" id="signupemail" placeholder="Email" required />
-                <input type="password" id="signUpPassword" placeholder="Password" required minlength="4" />
-                <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+                <input type="text" id="signupusername" name="signupusername" placeholder="Username" required />
+                <input type="email" id="signupemail" name="signupemail" placeholder="Email" required />
+                <input type="password" id="signuppassword" name="signuppassword" placeholder="Password" required minlength="4" />
+                <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" required />
                 <span id="passwordError" class="error"></span>
                 <button class="btn" type="submit">Sign Up</button>
             </form>
@@ -53,8 +139,9 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your account</span>
-                <input type="username" id="loginusername" placeholder="Username" required />
-                <input type="password" id="loginPassword" placeholder="Password" required minlength="4" />
+                <input type="username" id="loginusername" name="loginusername" placeholder="Username" required />
+                <input type="password" id="loginPassword" name="loginpassword" placeholder="Password" required minlength="4" />
+
                 <span id="passwordError" class="error"></span>
                 <a href="#">Forgot your password?</a>
                 <button class="btn" type="submit">Sign In</button>
@@ -140,6 +227,17 @@
         function validateSignInForm() {
             // Placeholder for future validation logic (if needed).
             return true;
+        }
+    </script>
+
+    <script>
+        // Function to dismiss an alert
+        function dismissAlert(button) {
+            const alertBox = button.parentElement;
+            alertBox.classList.add('fade-out'); // Add fade-out animation
+            setTimeout(() => {
+                alertBox.remove(); // Remove alert after animation
+            }, 300); // Matches the CSS transition duration
         }
     </script>
 </body>

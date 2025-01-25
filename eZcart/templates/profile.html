@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | eZcart</title>
+    <link rel="stylesheet" href="static/css/profile.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>Welcome to eZcart</h1>
+        <p>Manage your account, orders, and more</p>
+    </header>
+
+    <!-- Profile Section -->
+    <div class="profile-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <img src="static/images/men/men-03.jpg" alt="Profile Picture">
+            <h2>John Doe</h2>
+            <p>john.doe@example.com</p>
+            <ul>
+                <li class="active" onclick="showContent('orders')">My Orders</li>
+                <li onclick="showContent('wishlist')">Wishlist</li>
+                <li onclick="showContent('address')">Address Book</li>
+                <li onclick="showContent('settings')">Account Settings</li>
+            </ul>
+        </aside>
+
+        <!-- Content -->
+        <div class="content">
+            <div id="orders" class="content-section">
+                <h3>My Orders</h3>
+                <div class="order-card">
+                    <div>
+                        <h4>Order #12345</h4>
+                        <p>Placed on: Jan 15, 2025</p>
+                    </div>
+                    <button>Track Order</button>
+                </div>
+                <div class="order-card">
+                    <div>
+                        <h4>Order #67890</h4>
+                        <p>Placed on: Dec 20, 2024</p>
+                    </div>
+                    <button>Track Order</button>
+                </div>
+            </div>
+
+            <div id="wishlist" class="content-section" style="display: none;">
+                <h3>Wishlist</h3>
+                <div id="wishlist-items">
+                    <div class="wishlist-item">
+                        <img src="https://via.placeholder.com/150" alt="Product 1" class="wishlist-item-img">
+                        <div class="wishlist-item-info">
+                            <h4>Product Name 1</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                        <div class="wishlist-item-actions">
+                            <button>Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="wishlist-item">
+                        <img src="https://via.placeholder.com/150" alt="Product 2" class="wishlist-item-img">
+                        <div class="wishlist-item-info">
+                            <h4>Product Name 2</h4>
+                            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices.</p>
+                        </div>
+                        <div class="wishlist-item-actions">
+                            <button>Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="wishlist-item">
+                        <img src="https://via.placeholder.com/150" alt="Product 3" class="wishlist-item-img">
+                        <div class="wishlist-item-info">
+                            <h4>Product Name 3</h4>
+                            <p>Phasellus dapibus urna ac diam vehicula, at elementum velit luctus.</p>
+                        </div>
+                        <div class="wishlist-item-actions">
+                            <button>Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="address" class="content-section" style="display: none;">
+                <h3>Address Book</h3>
+                <!-- Address List -->
+                <div id="address-list">
+                    <h4>Added Addresses</h4>
+                    <div class="address-card">
+                        <p><strong>John Doe</strong></p>
+                        <p>1234 Elm Street, Springfield, IL 62701</p>
+                        <button class="edit-btn" onclick="editAddress(this)">Edit</button>
+                        <button class="delete-btn" onclick="deleteAddress(this)">Delete</button>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="showAddressForm()">Add New Address</button>
+                <div id="address-form" style="display: none;">
+                    <h4>New Address</h4>
+                    <form id="add-address-form">
+                        <label for="name">Name:</label><br>
+                        <input type="text" id="name" name="name" required><br><br>
+                        <label for="address">Address:</label><br>
+                        <input type="text" id="address" name="address" required><br><br>
+                        <label for="city">City:</label><br>
+                        <input type="text" id="city" name="city" required><br><br>
+                        <label for="state">State:</label><br>
+                        <input type="text" id="state" name="state" required><br><br>
+                        <label for="zip">Zip Code:</label><br>
+                        <input type="text" id="zip" name="zip" required><br><br>
+                        <button type="submit">Add Address</button>
+                        <button type="button" onclick="cancelAddressForm()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="settings" class="content-section" style="display: none;">
+                <h3>Your Profile</h3>
+                <div id="profile-info">
+                    <h4>Profile Information</h4>
+                    <p><strong>First Name:</strong> <span id="profile-first-name">John</span></p>
+                    <p><strong>Last Name:</strong> <span id="profile-last-name">Doe</span></p>
+                    <p><strong>Gender:</strong> <span id="profile-gender">Male</span></p>
+                    <p><strong>Email:</strong> <span id="profile-email">john.doe@example.com</span></p>
+                    <p><strong>Phone:</strong> <span id="profile-phone">+1234567890</span></p>
+                    <button id="edit-profile-btn" onclick="editProfile()">Edit</button>
+                </div>
+                <div id="profile-form" style="display: none;">
+                    <form id="update-profile-form">
+                        <label for="first-name">First Name:</label><br>
+                        <input type="text" id="first-name" name="first-name" value="John" required><br><br>
+                        <label for="last-name">Last Name:</label><br>
+                        <input type="text" id="last-name" name="last-name" value="Doe" required><br><br>
+                        <label for="gender">Gender:</label><br>
+                        <select id="gender" name="gender" required>
+                            <option value="male" selected>Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select><br><br>
+                        <label for="email">Email:</label><br>
+                        <input type="email" id="email" name="email" value="john.doe@example.com" required><br><br>
+                        <label for="phone">Phone:</label><br>
+                        <input type="tel" id="phone" name="phone" value="+1234567890" required><br><br>
+                        <button type="submit">Save Changes</button>
+                        <button type="button" onclick="cancelProfileForm()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Home and Logout Buttons -->
+    <div class="button-container">
+        <a href="index" class="back-to-home btn">Back to Home</a>
+        <a href="logout" class="logout-btn btn">Logout</a>
+    </div>
+
+
+    <script>
+        function showContent(sectionId) {
+            // Remove active class from all menu items
+            const menuItems = document.querySelectorAll('.sidebar li');
+            menuItems.forEach(item => item.classList.remove('active'));
+
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.style.display = 'none');
+
+            // Show the selected section and activate the menu item
+            document.getElementById(sectionId).style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('collapsed');
+            const navbarLinks = document.querySelector('.navbar-links');
+            navbarLinks.classList.toggle('show');
+        }
+
+        function logout() {
+            // Logout logic
+            alert('You have logged out!');
+            // Here you can add logic to handle the logout process (e.g., redirect to login page).
+        }
+    </script>
+
+    <script>
+        // Show the form to add a new address
+        function showAddressForm() {
+            document.getElementById('address-list').style.display = 'none';
+            document.getElementById('address-form').style.display = 'block';
+        }
+    
+        // Cancel the address form
+        function cancelAddressForm() {
+            document.getElementById('address-form').style.display = 'none';
+            document.getElementById('address-list').style.display = 'block';
+        }
+    
+        // Handle the form submission
+        document.getElementById('add-address-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const zip = document.getElementById('zip').value;
+    
+            const newAddressCard = document.createElement('div');
+            newAddressCard.classList.add('address-card');
+            newAddressCard.innerHTML = `
+                <p><strong>${name}</strong></p>
+                <p>${address}, ${city}, ${state} ${zip}</p>
+                <button class="edit-btn" onclick="editAddress(this)">Edit</button>
+                <button class="delete-btn" onclick="deleteAddress(this)">Delete</button>
+            `;
+            document.getElementById('address-list').appendChild(newAddressCard);
+    
+            cancelAddressForm(); // Hide the form and show the updated address list
+        });
+    
+        // Edit the address (show the form with pre-filled values)
+        function editAddress(button) {
+            const addressCard = button.parentElement;
+            const name = addressCard.querySelector('strong').textContent;
+            const address = addressCard.querySelector('p:nth-child(2)').textContent.split(',')[0];
+            const city = addressCard.querySelector('p:nth-child(2)').textContent.split(',')[1].trim();
+            const stateZip = addressCard.querySelector('p:nth-child(2)').textContent.split(',')[2].trim().split(' ');
+            const state = stateZip[0];
+            const zip = stateZip[1];
+    
+            // Fill the form with existing data
+            document.getElementById('name').value = name;
+            document.getElementById('address').value = address;
+            document.getElementById('city').value = city;
+            document.getElementById('state').value = state;
+            document.getElementById('zip').value = zip;
+    
+            // Change form action to update
+            document.getElementById('add-address-form').onsubmit = function(event) {
+                event.preventDefault();
+    
+                addressCard.querySelector('strong').textContent = document.getElementById('name').value;
+                addressCard.querySelector('p:nth-child(2)').textContent = `${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('state').value} ${document.getElementById('zip').value}`;
+                
+                cancelAddressForm();
+            };
+    
+            showAddressForm();
+        }
+    
+        // Delete the address
+        function deleteAddress(button) {
+            const addressCard = button.parentElement;
+            addressCard.remove();
+        }
+    </script>
+
+    <script>
+        // Toggle the profile between view and edit modes
+        function editProfile() {
+            // Hide the profile info and show the edit form
+            document.getElementById('profile-info').style.display = 'none';
+            document.getElementById('profile-form').style.display = 'block';
+    
+            // Change the button text to "Save"
+            document.getElementById('edit-profile-btn').style.display = 'none';
+        }
+    
+        // Handle form submission to save profile changes
+        document.getElementById('update-profile-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            // Get form values
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const gender = document.getElementById('gender').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+    
+            // Update the displayed profile information
+            document.getElementById('profile-first-name').textContent = firstName;
+            document.getElementById('profile-last-name').textContent = lastName;
+            document.getElementById('profile-gender').textContent = gender;
+            document.getElementById('profile-email').textContent = email;
+            document.getElementById('profile-phone').textContent = phone;
+    
+            // Show the profile info again and hide the form
+            document.getElementById('profile-info').style.display = 'block';
+            document.getElementById('profile-form').style.display = 'none';
+    
+            // Show the Edit button again
+            document.getElementById('edit-profile-btn').style.display = 'inline-block';
+    
+            // Optionally, you can handle the form submission here (e.g., send data to server)
+            alert('Profile updated!');
+        });
+    
+        // Cancel the profile form and restore previous data
+        function cancelProfileForm() {
+            document.getElementById('profile-form').style.display = 'none';
+            document.getElementById('profile-info').style.display = 'block';
+            document.getElementById('edit-profile-btn').style.display = 'inline-block';
+        }
+    </script>
+</body>
+</html>
