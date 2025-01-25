@@ -35,7 +35,9 @@ urlpatterns = [
     path('about', views.about, name="about"),
     path('contact', views.contact, name="contact"),
     path('checkout', views.checkout, name="checkout"),
-    path('login', views.login_user, name="login"),
+    path('login', views.login_user, name="login_user"),
+    path('signup', views.signup_user, name="signup_user"),
+    path('profile', views.profile, name="profile"),
     path('help', views.help, name="help"),
 ]
 

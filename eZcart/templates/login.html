@@ -10,11 +10,22 @@
 </head>
 
 <body>
+    {% if message %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    {% endif %}
     <h2>Welcome to eZcart</h2>
     <div class="container" id="container">
         <!-- Sign-up Form -->
         <div class="form-container sign-up-container">
-            <form id="signUpForm" action="#" onsubmit="return validateSignUpForm()">
+            <form id="signUpForm" action="{% url 'signup_user'%}" method="post" onsubmit="return validateSignUpForm()">
+                {% csrf_token %}
                 <h1>Create Account</h1>
                 <div class="social-container">
                     <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -22,9 +33,10 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email for registration</span>
-                <input type="text" id="name" placeholder="Name" required />
-                <input type="email" id="email" placeholder="Email" required />
+                <input type="text" id="signupusername" placeholder="Username" required />
+                <input type="email" id="signupemail" placeholder="Email" required />
                 <input type="password" id="signUpPassword" placeholder="Password" required minlength="4" />
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
                 <span id="passwordError" class="error"></span>
                 <button class="btn" type="submit">Sign Up</button>
             </form>
@@ -32,7 +44,8 @@
 
         <!-- Sign-in Form -->
         <div class="form-container sign-in-container">
-            <form id="signInForm" action="#" onsubmit="return validateSignInForm()">
+            <form id="signInForm" action="{% url 'login_user'%}" method="post" onsubmit="return validateSignInForm()">
+                {% csrf_token %}
                 <h1>Sign In</h1>
                 <div class="social-container">
                     <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -40,7 +53,7 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your account</span>
-                <input type="email" id="loginEmail" placeholder="Email" required />
+                <input type="username" id="loginusername" placeholder="Username" required />
                 <input type="password" id="loginPassword" placeholder="Password" required minlength="4" />
                 <span id="passwordError" class="error"></span>
                 <a href="#">Forgot your password?</a>
@@ -86,16 +99,22 @@
             container.classList.remove('right-panel-active');
         });
 
-
         // Password validation function
         function validateSignUpForm() {
             const password = document.getElementById("signUpPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
             const passwordError = document.getElementById("passwordError");
 
             // Clear any previous error messages
             passwordError.textContent = '';
 
-            // Check for length, alphanumeric, and special characters
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                passwordError.textContent = 'Passwords do not match!';
+                return false; // Prevent form submission
+            }
+
+            // Check for password length, alphanumeric, and special characters
             if (password.length < 4) {
                 passwordError.textContent = 'Password must be at least 4 characters long.';
                 return false; // Prevent form submission
