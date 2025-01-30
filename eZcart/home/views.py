@@ -3,12 +3,15 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from home.models import *
 
 # Create your views here.
 
 def index(request):
+    categories = Category.objects.all()
     context = {
         'is_index': True,  # Flag for index page
+        'categories': categories
     }
     return render(request, "index.html", context)
 
