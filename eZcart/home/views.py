@@ -9,14 +9,22 @@ from home.models import *
 
 def index(request):
     categories = Category.objects.all()
+    products = Product.objects.all()
     context = {
         'is_index': True,  # Flag for index page
-        'categories': categories
+        'categories': categories,
+        'products': products,
     }
     return render(request, "index.html", context)
 
 def shop(request):
-    return render(request, "shop.html")
+    categories = Category.objects.all()
+    products = Product.objects.all()
+    context = {
+        'categories': categories,
+        'products': products,
+    }
+    return render(request, "shop.html", context)
 
 @login_required(login_url="login_user")
 def shoping_cart(request):
