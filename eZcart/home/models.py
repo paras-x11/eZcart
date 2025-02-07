@@ -12,7 +12,7 @@ class Category(models.Model):
     
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    productName = models.CharField(max_length=50)
+    productName = models.CharField(max_length=100)
     productPrice = models.FloatField()
     productQty = models.IntegerField(null=False, blank=False, default=10, validators=[MinValueValidator(0), MaxValueValidator(1000)], help_text="Stock quantity must be between 0 and 1000.")
     productImage = models.ImageField(upload_to="product_images")

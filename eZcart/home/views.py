@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from home.models import *
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -25,6 +26,19 @@ def shop(request):
         'products': products,
     }
     return render(request, "shop.html", context)
+
+def get_products_by_category(request):
+    category_id = request.GET.get('category_id')
+
+    if category_id == "all":
+        products = Product.objects.all()
+    else:
+        products = Product.objects.filter(category__id=category_id)
+
+    # Return necessary product data
+    product_data = list(products.values('productName', 'productPrice', 'productImage'))
+
+    return JsonResponse({"products": product_data})
 
 @login_required(login_url="login_user")
 def shoping_cart(request):
