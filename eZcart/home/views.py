@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from home.models import *
 from django.http import JsonResponse
+from django.conf import settings
 
 # Create your views here.
 
@@ -28,17 +29,36 @@ def shop(request):
     return render(request, "shop.html", context)
 
 def get_products_by_category(request):
-    category_id = request.GET.get('category_id')
-
-    if category_id == "all":
+    cid = request.GET.get("cid")
+    if cid == "":
         products = Product.objects.all()
     else:
-        products = Product.objects.filter(category__id=category_id)
+        products = Product.objects.filter(category_id=cid)
 
-    # Return necessary product data
-    product_data = list(products.values('productName', 'productPrice', 'productImage'))
+    product_list = [
+        {
+            'productName': product.productName,
+            'productPrice': product.productPrice,
+            'productImage': { 'url': product.productImage.url }
+        }
+        for product in products
+    ]
+    return JsonResponse({"cproducts": product_list})
 
-    return JsonResponse({"products": product_data})
+def searchProduct(request):
+    val = request.GET.get('val')
+
+    products = Product.objects.filter(productName__istartswith=val)
+
+    product_list = [
+        {
+            'productName': product.productName,
+            'productPrice': product.productPrice,
+            'productImage': { 'url': product.productImage.url }
+        }
+        for product in products
+    ]
+    return JsonResponse({"cproducts": product_list})
 
 @login_required(login_url="login_user")
 def shoping_cart(request):
@@ -147,3 +167,4 @@ def home2(request):
 
 def home3(request):
     return render(request, "home-03.html")
+
