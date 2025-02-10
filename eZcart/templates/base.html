@@ -473,9 +473,11 @@
 
   <!--===============================================================================================-->
   <!--===============================================================================================-->
-  <script src="{% static 'vendor/jquery/jquery-3.7.1.min.js' %}"></script>
+  <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
   <!--===============================================================================================-->
   <script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
+  <!--===============================================================================================-->
+  <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
   <!--===============================================================================================-->
   <script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
   <!--===============================================================================================-->
@@ -628,15 +630,31 @@
       var $jq = jQuery.noConflict();
     
       // Initialize Isotope after DOM is fully loaded
-      document.addEventListener("DOMContentLoaded", function () {
-        var $grid = $jq('.isotope-grid').isotope({
-          itemSelector: '.isotope-item',
-          layoutMode: 'fitRows'
-        });
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   var $grid = $jq('.isotope-grid').isotope({
+      //     itemSelector: '.isotope-item',
+      //     layoutMode: 'fitRows'
+      //   });
     
+      //   // Fetch initial products
+      //   get_products_by_category();
+      // });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var $grid = $jq('.isotope-grid');
+        
+        // Wait for all images to be fully loaded before initializing Isotope
+        $grid.imagesLoaded(function () {
+          $grid.isotope({
+            itemSelector: '.isotope-item',
+            layoutMode: 'fitRows',
+          });
+        });
+
         // Fetch initial products
         get_products_by_category();
       });
+
     
       const get_products_by_category = (cid) => {
         $jq("#pdata").empty();
@@ -651,7 +669,7 @@
             row += `<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
                 <div class="block2">
                   <div class="block2-pic hov-img0">
-                    <img src="${rt.cproducts[i].productImage.url}" alt="IMG-PRODUCT">
+                    <img src="${rt.cproducts[i].productImage.url}" alt="IMG-PRODUCT" style="height:335.35px;">
                     <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                       Quick View
                     </a>
@@ -710,9 +728,17 @@
               </div>`;
           }
           $jq("#pdata").html(row);
-          $jq('.isotope-grid').isotope('reloadItems').isotope();
+          $jq('.isotope-grid').imagesLoaded().done(function () {
+              $jq('.isotope-grid').isotope('reloadItems').isotope();
+          });
+
         });
       };
+
+      jQuery.event.special.unload = {
+  setup: function() { return false; }
+};
+
   </script>
   <!--===============================================================================================-->
   {% block js %}{% endblock js %}

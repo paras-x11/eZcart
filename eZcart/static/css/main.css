@@ -2044,6 +2044,13 @@ input.num-product::-webkit-inner-spin-button {
   position: relative;
 }
 
+.block2-pic img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
 .block2-btn {
   position: absolute;
   bottom: -50px;
