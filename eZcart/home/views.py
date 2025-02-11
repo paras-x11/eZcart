@@ -148,15 +148,35 @@ def logout_user(request):
         messages.success(request, "Logout Successfull !!!")
     return render(request, "login.html")
 
+def help(request):
+    return render(request, "help.html")
+
+@login_required(login_url="login_user")
 def profile(request):
     if request.user.is_anonymous:
         return redirect("login_user")
     return render(request, "profile.html")
 
-def help(request):
-    return render(request, "help.html")
+def my_orders(request):
+    context = {
+        # orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    }
+    return render(request, 'my_orders.html', context)
 
+def address_book(request):
+    context = {
+        # addresses = Address.objects.filter(user=request.user)
+    }
+    return render(request, 'address_book.html', context)
 
+def acc_setting(request):
+    return render(request, "acc_setting.html")
+
+def my_wishlist(request):
+    context = {
+        # wishlist_items = Wishlist.objects.filter(user=request.user)
+    } 
+    return render(request, 'my_wishlist.html', context)
 
 
 

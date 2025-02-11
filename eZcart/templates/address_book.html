@@ -1,0 +1,31 @@
+{% extends 'profile.html' %}
+
+{% block title %}Address Book - eZcart{% endblock %}
+
+{% block content %}
+<h1>My Address Book</h1>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for address in addresses %}
+    <tr>
+      <td>{{ address.full_address }}</td>
+      <td>
+        <a href="{% url 'edit_address' address.id %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'delete_address' address.id %}" class="btn btn-danger">Delete</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="2" class="text-center">No addresses found</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{% url 'add_address' %}" class="btn btn-primary">Add New Address</a>
+{% endblock %}
