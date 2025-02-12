@@ -1,0 +1,481 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    transition: all 0.3s ease-in-out;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* Prevent horizontal scrolling */
+}
+
+header {
+    background-color: #343a40;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    /* Ensure header spans full width */
+}
+
+
+
+/* Logo Styling */
+header .logo {
+    font-size: 1.8rem;
+    flex: 1;    /* Take up the remaining space */
+    text-align: center;    /* Center the text */
+    color: #ff5733;
+    font-size: 24px;    /* Adjust logo font size */
+    font-weight: bold;
+    
+}
+
+/* User Options (Buttons) */
+header .user-options {
+    display: flex;
+    align-items: center;
+}
+
+/* Button Styling */
+header .btn {
+    background: none;    /* Remove background if needed */
+    border: none;    /* Remove border */
+    padding: 8px;    /* Adjust button size */
+    cursor: pointer;
+    font-size: 18px;    /* Icon size */
+    color: #333;    /* Button text color */
+}
+
+/* Optional: Add hover effect for buttons */
+header .btn:hover {
+    color: #007bff;
+}
+
+
+#sidebar {
+    width: 250px;
+    background: #212529;
+    color: white;
+    position: fixed;
+    top: 60px;
+    left: -250px;
+    bottom: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: 999;
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+    /* Ensure sidebar takes full height minus header */
+}
+
+#sidebar.active {
+    left: 0;
+}
+
+#sidebar h2 {
+    text-align: start;
+    padding: 20px 20px 20px 40px;
+    background-color: #343a40;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#sidebar .nav-link {
+    color: white;
+    padding: 15px;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+#sidebar .nav-link:hover {
+    background-color: #495057;
+    border-radius: 5px;
+}
+
+#content {
+    flex-grow: 1;
+    padding: 30px;
+    margin-left: 0;
+    transition: all 0.3s ease-in-out;
+    margin-top: 80px;
+}
+
+#content.active {
+    margin-left: 250px;
+}
+
+#toggle-btn {
+    background-color: #212529;
+    color: white;
+    border: none;
+    padding: 8px 13px;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+#toggle-btn:hover {
+    background-color: #495057;
+    border-radius: 5px;
+}
+
+.user-options {
+    display: flex;
+    align-items: center;
+}
+
+.user-options .btn {
+    color: white;
+    background-color: transparent;
+    border: none;
+    margin-left: 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.user-options .btn:hover {
+    background-color: #495057;
+    border-radius: 5px;
+}
+
+footer {
+    background: #343a40;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    width: 100%;
+}
+
+/* Modal Styles */
+.modal-header {
+    background: #343a40;
+    color: white;
+}
+
+.modal-footer {
+    background: #f8f9fa;
+}
+
+.modal-body {
+    font-size: 1rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: -100%;
+        top: 60px;
+        bottom: 0;
+    }
+
+    #sidebar.active {
+        left: 0;
+    }
+
+    #content {
+        margin-left: 0;
+        padding: 20px;
+        overflow-x: hidden;
+        /* Prevent horizontal scrolling */
+        width: 100%;
+    }
+
+    #toggle-btn {
+        font-size: 1.5rem;
+    }
+
+    #sidebar .nav-link {
+        padding: 12px 20px;
+        font-size: 1.1rem;
+    }
+
+    .user-options {
+        margin-left: auto;
+    }
+
+    footer {
+        position: relative;
+    }
+
+    .card-img-top {
+        width: 100%;
+        /* Make profile image responsive */
+        height: auto;
+    }
+}
+
+/* For larger screens (i.e., tablets or desktops) */
+@media (min-width: 769px) {
+    #sidebar {
+        width: 250px;
+    }
+}
+
+/* Modal Forms Styles */
+.modal-body form .form-group {
+    margin-bottom: 15px;
+}
+
+.modal-body form .form-control {
+    border-radius: 5px;
+    box-shadow: none;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.modal-body form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.modal-body form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Edit Profile Modal */
+#editProfileModal .modal-header {
+    background-color: #343a40;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+#editProfileModal .modal-body {
+    background-color: #f8f9fa;
+}
+
+#editProfileModal .modal-footer {
+    background-color: #f8f9fa;
+}
+
+#editProfileModal .modal-footer .btn {
+    border-radius: 5px;
+}
+
+/* Edit Address Modal */
+#editAddressModal .modal-header {
+    background-color: #343a40;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+#editAddressModal .modal-body {
+    background-color: #f8f9fa;
+}
+
+#editAddressModal .modal-footer {
+    background-color: #f8f9fa;
+}
+
+#editAddressModal .modal-footer .btn {
+    border-radius: 5px;
+}
+
+/* Add Address Modal */
+#addAddressModal .modal-header {
+    background-color: #343a40;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+#addAddressModal .modal-body {
+    background-color: #f8f9fa;
+}
+
+#addAddressModal .modal-footer {
+    background-color: #f8f9fa;
+}
+
+#addAddressModal .modal-footer .btn {
+    border-radius: 5px;
+}
+
+/* Address List Style */
+/* Address Section */
+#address {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#address h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+#address .list-group-item {
+    position: relative;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+#address .list-group-item button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#address .list-group-item .btn-warning {
+    right: 10px;
+}
+
+#address .list-group-item .btn-danger {
+    right: 75px;
+}
+
+#address .list-group-item button:hover {
+    opacity: 0.9;
+}
+
+#address .btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#address .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+
+/* Settings Section */
+#settings .list-group-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+#settings button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#settings .btn-outline-warning {
+    border-color: #ffc107;
+    color: #ffc107;
+}
+
+#settings .btn-outline-warning:hover {
+    background-color: #ffc107;
+    color: white;
+}
+
+#settings .btn-danger {
+    border-color: #dc3545;
+    color: white;
+}
+
+#settings .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+#settings button:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+/* Container for the profile card */
+.col-md-4.profile-col {
+    margin-bottom: 20px;
+}
+
+/* Profile Card Styling */
+.card.profile-card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Image */
+.card-img-top.profile-img {
+    width: 100px;
+    /* Set the size you want */
+    height: 100px;
+    /* Make sure it's a square */
+    object-fit: cover;
+    border-radius: 50%;
+    /* Make the image round */
+    margin: 0 auto;
+    /* Center the image */
+}
+
+
+/* Card Body */
+.card-body.profile-card-body {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Profile Title */
+.card-title.profile-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Profile Email */
+.card-text.profile-email {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+/* Edit Profile Button */
+.btn.profile-btn {
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 1rem;
+}
+
+.btn-primary.profile-btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary.profile-btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Responsiveness for small screens */
+@media (max-width: 768px) {
+    .col-md-4.profile-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
