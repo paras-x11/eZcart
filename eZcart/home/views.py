@@ -7,7 +7,7 @@ from home.models import *
 from django.http import JsonResponse
 from django.conf import settings
 
-# Create your views here.
+# Create your views here. 
 
 def index(request):
     categories = Category.objects.all()

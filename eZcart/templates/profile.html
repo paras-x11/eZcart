@@ -10,6 +10,8 @@
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}" />
+
   <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 
 
@@ -29,7 +31,7 @@
     <div class="logo">eZcart</div>
     <div class="user-options">
       <button class="btn" id="notifications-btn">
-        <i class="fas fa-bell"></i>
+        <i class="fa fa-bell"></i>
       </button>
       <a href="{% url 'index' %}" class="btn">
         <i class="fas fa-home"></i>
@@ -74,15 +76,37 @@
     <div class="container mt-4">
       <div class="row">
         <div class="col-md-4 profile-col">
-          <div class="card profile-card">
-            <img src="images/product-min-01.jpg" class="card-img-top profile-img" alt="User Profile Image">
-            <div class="card-body profile-card-body">
-              <h5 class="card-title profile-title" id="profile-name">John Doe</h5>
-              <p class="card-text profile-email" id="profile-email">john.doe@example.com</p>
-              <button class="btn btn-primary profile-btn w-100" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
+          <div class="profile-card">
+            <div class="image">
+              <img src="images/product-min-01.jpg" alt="User Profile Image" class="profile-img">
             </div>
+        
+            <div class="text-data">
+              <span class="name" id="profile-name">{{ request.user.username }}</span>
+            </div>
+        
+            <div class="details">
+              <ul>
+                <li><i class="fas fa-envelope"></i> <span id="profile-email">{{ request.user.email }}</span></li>
+                <li><i class="fas fa-phone"></i> +1 555-555-5555</li>
+                <li><i class="fas fa-link"></i> www.support@ezcart.com</li>
+                <li><i class="fas fa-map"></i> 123 Main Street, Anytown, USA</li>
+              </ul>
+            </div>
+        
+            <div class="media-buttons">
+              <a href="#" style="background: #4267b2" class="link"><i class="fa fa-facebook"></i></a>
+              <a href="#" style="background: #1da1f2" class="link"><i class="fa fa-twitter"></i></a>
+              <a href="#" style="background: #e1306c" class="link"><i class="fa fa-instagram"></i></a>
+              <a href="#" style="background: #ff0000" class="link"><i class="fa fa-youtube"></i></a>
+            </div>
+        
+            <!-- Edit Profile Button -->
+            <button class="profile-btn" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
           </div>
         </div>
+        
+        
         
 
         <div class="col-md-8">
@@ -118,16 +142,18 @@
           <div id="address" class="content-section" style="display: none;">
             <h4>Address Book</h4>
             <ul class="list-group">
-              <li class="list-group-item">
-                <strong>Home Address</strong><br>
-                1234 Main St, Springfield, IL
-                <button class="btn btn-warning btn-sm float-end" onclick="editAddress(this)">Edit</button>
-                <button class="btn btn-danger btn-sm float-end mr-2" onclick="deleteAddress(this)">Delete</button>
-              </li>
+                <li class="list-group-item">
+                    <strong>Home Address</strong><br>
+                    1234 Main St, Springfield, IL
+                    <div class="btn-container">
+                        <button class="btn btn-warning btn-sm" onclick="editAddress(this)">Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteAddress(this)">Delete</button>
+                    </div>
+                </li>
             </ul>
-            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">Add New
-              Address</button>
-          </div>
+            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">Add New Address</button>
+        </div>
+        
 
           <div id="settings" class="content-section" style="display: none;">
             <h4>Account Settings</h4>

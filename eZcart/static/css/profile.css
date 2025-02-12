@@ -1,3 +1,6 @@
+/* Google Fonts - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
 body {
     display: flex;
     min-height: 100vh;
@@ -30,12 +33,15 @@ header {
 /* Logo Styling */
 header .logo {
     font-size: 1.8rem;
-    flex: 1;    /* Take up the remaining space */
-    text-align: center;    /* Center the text */
+    flex: 1;
+    /* Take up the remaining space */
+    text-align: center;
+    /* Center the text */
     color: #ff5733;
-    font-size: 24px;    /* Adjust logo font size */
+    font-size: 24px;
+    /* Adjust logo font size */
     font-weight: bold;
-    
+
 }
 
 /* User Options (Buttons) */
@@ -46,12 +52,17 @@ header .user-options {
 
 /* Button Styling */
 header .btn {
-    background: none;    /* Remove background if needed */
-    border: none;    /* Remove border */
-    padding: 8px;    /* Adjust button size */
+    background: none;
+    /* Remove background if needed */
+    border: none;
+    /* Remove border */
+    padding: 8px;
+    /* Adjust button size */
     cursor: pointer;
-    font-size: 18px;    /* Icon size */
-    color: #333;    /* Button text color */
+    font-size: 18px;
+    /* Icon size */
+    color: #333;
+    /* Button text color */
 }
 
 /* Optional: Add hover effect for buttons */
@@ -250,25 +261,7 @@ footer {
     background-color: #0056b3;
 }
 
-/* Edit Profile Modal */
-#editProfileModal .modal-header {
-    background-color: #343a40;
-    color: white;
-    font-size: 1.25rem;
-    font-weight: bold;
-}
 
-#editProfileModal .modal-body {
-    background-color: #f8f9fa;
-}
-
-#editProfileModal .modal-footer {
-    background-color: #f8f9fa;
-}
-
-#editProfileModal .modal-footer .btn {
-    border-radius: 5px;
-}
 
 /* Edit Address Modal */
 #editAddressModal .modal-header {
@@ -326,33 +319,38 @@ footer {
 }
 
 #address .list-group-item {
-    position: relative;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 10px;
     background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-#address .list-group-item button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+#address .btn-container {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+#address .btn-container button {
     padding: 5px 10px;
     font-size: 0.9rem;
     border-radius: 5px;
     transition: all 0.3s ease;
 }
 
-#address .list-group-item .btn-warning {
-    right: 10px;
+#address .btn-container .btn-warning {
+    background-color: #ffc107;
 }
 
-#address .list-group-item .btn-danger {
-    right: 75px;
+#address .btn-container .btn-danger {
+    background-color: #dc3545;
 }
 
-#address .list-group-item button:hover {
+#address .btn-container button:hover {
     opacity: 0.9;
 }
 
@@ -367,6 +365,7 @@ footer {
 #address .btn-primary:hover {
     background-color: #0056b3;
 }
+
 
 
 /* Settings Section */
@@ -409,73 +408,143 @@ footer {
     margin-bottom: 10px;
 }
 
-/* Container for the profile card */
-.col-md-4.profile-col {
-    margin-bottom: 20px;
+/* Edit Profile Modal */
+#editProfileModal .modal-header {
+    background-color: #343a40;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+#editProfileModal .modal-body {
+    background-color: #f8f9fa;
+}
+
+#editProfileModal .modal-footer {
+    background-color: #f8f9fa;
+}
+
+#editProfileModal .modal-footer .btn {
+    background-color: #28a745; /* Green button in modal */
+    color: #fff;
+    border-radius: 5px;
+}
+
+#editProfileModal .modal-footer .btn:hover {
+    background-color: #218838; /* Darker green on hover */
 }
 
 /* Profile Card Styling */
-.card.profile-card {
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 350px;
+    width: 100%;
+    background: #fff;
+    padding: 25px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    position: relative;
+}
+
+.profile-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 36%;
+    width: 100%;
+    background-color: #4070f4;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 
 /* Profile Image */
-.card-img-top.profile-img {
-    width: 100px;
-    /* Set the size you want */
-    height: 100px;
-    /* Make sure it's a square */
+.profile-card .image {
+    position: relative;
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    background-color: #4070f4;
+    padding: 4px;
+    margin-top: 15px;
+}
+
+.profile-card .image .profile-img {
+    height: 100%;
+    width: 100%;
     object-fit: cover;
     border-radius: 50%;
-    /* Make the image round */
-    margin: 0 auto;
-    /* Center the image */
+    border: 3px solid #fff;
 }
 
-
-/* Card Body */
-.card-body.profile-card-body {
-    text-align: center;
-    padding: 20px;
+/* Profile Info */
+.profile-card .text-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    margin-top: 15px;
 }
 
-/* Profile Title */
-.card-title.profile-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
+.profile-card .text-data .name {
+    font-size: 22px;
+    font-weight: 500;
 }
 
-/* Profile Email */
-.card-text.profile-email {
-    font-size: 1rem;
-    color: #6c757d;
-    margin-bottom: 20px;
+.profile-card .text-data .email {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Social Media Buttons */
+.profile-card .media-buttons {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.profile-card .media-buttons .link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    margin: 0 8px;
+    background-color: #4070f4;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.profile-card .media-buttons .link:hover {
+    background-color: #0056b3;
 }
 
 /* Edit Profile Button */
-.btn.profile-btn {
+.profile-card .profile-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 16px;
+    border: none;
     border-radius: 5px;
-    padding: 12px 20px;
-    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.btn-primary.profile-btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+.profile-card .profile-btn:hover {
+    background-color: #218838;
 }
 
-.btn-primary.profile-btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-
-/* Responsiveness for small screens */
+/* Responsive Design */
 @media (max-width: 768px) {
-    .col-md-4.profile-col {
-        flex: 0 0 100%;
-        max-width: 100%;
+    .profile-card {
+        max-width: 90%;
     }
 }
