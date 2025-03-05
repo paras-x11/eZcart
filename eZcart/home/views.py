@@ -37,6 +37,7 @@ def get_products_by_category(request):
 
     product_list = [
         {
+            'productId' : product.id,
             'productName': product.productName,
             'productPrice': product.productPrice,
             'productImage': { 'url': product.productImage.url }
@@ -52,6 +53,7 @@ def searchProduct(request):
 
     product_list = [
         {
+            'productId' : product.id,
             'productName': product.productName,
             'productPrice': product.productPrice,
             'productImage': { 'url': product.productImage.url }
@@ -60,15 +62,39 @@ def searchProduct(request):
     ]
     return JsonResponse({"cproducts": product_list})
 
+def product_detail(request):
+    id = request.GET['id']
+    pdata = Product.objects.get(pk=id)
+
+    products = Product.objects.all()
+    categories = Category.objects.all()
+
+    context = {
+        'pdata' : pdata,
+        'categories': categories,
+        'products': products,
+    }
+    return render(request, "product-detail.html", context)
+
 @login_required(login_url="login_user")
 def shoping_cart(request):
     return render(request, "shoping-cart.html")
 
+def addToCart(request):
+    pid = request.GET.get('pid')  
+    user_id = request.user.id if request.user.is_authenticated else None
+    
+    if not pid:
+        return JsonResponse({"error": "Product ID is required"}, status=400)
+
+    print(pid, user_id)
+    # c = Cart.objects.create(user=user_id, )
+    return JsonResponse({"success": True, "message": "Product added to cart"})
+
+    
+
 def whishlist(request):
     return render(request, "whishlist.html")
-
-def product_detail(request):
-    return render(request, "product-detail.html")
 
 def features(request):
     return render(request, "features.html")
@@ -85,6 +111,7 @@ def about(request):
 def contact(request):
     return render(request, "contact.html")
 
+@login_required(login_url="login_user")
 def checkout(request):
     return render(request, "checkout.html")
 
