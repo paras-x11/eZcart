@@ -34,7 +34,7 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def total_cart_price(self):
-        return sum(item.total_price() for item in self.cart_items.all())
+        return sum(item.sub_total() for item in self.cart_items.all())
 
     def __str__(self):
         return f"Cart of {self.user.username} - Total Items: {self.cart_items.count()}"
@@ -46,7 +46,7 @@ class CartItem(models.Model):
     qty = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
 
 
-    def total_price(self):
+    def sub_total(self):
         return self.qty * self.product.productPrice
     
     def __str__(self):

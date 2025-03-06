@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Order Successful {% endblock %}
+
+{% block body %}
+<div class="container text-center mt-5">
+    <h2 class="text-success">🎉 Payment Successful! 🎉</h2>
+    <p>Thank you for shopping with us.</p>
+    
+    {% if payment_id %}
+        <p><strong>Payment ID:</strong> {{ payment_id }}</p>
+    {% endif %}
+    
+    <a href="{% url 'index' %}" class="btn btn-success mt-3 px-4 py-2">
+        🏠 Go to Home
+    </a>
+</div>
+<br><br>
+{% endblock body %}

@@ -76,11 +76,11 @@
 								</li>
 								<li class="d-flex flex-row align-items-center justify-content-start">
 									<div class="cart_total_title">Shipping</div>
-									<div class="cart_total_price ml-auto">$5.00</div>
+									<div class="cart_total_price ml-auto">Free</div>
 								</li>
 								<li class="d-flex flex-row align-items-start justify-content-start total_row">
 									<div class="cart_total_title">Total</div>
-									<div class="cart_total_price ml-auto">$40.00</div>
+									<div class="cart_total_price ml-auto">${{total}}</div>
 								</li>
 							</ul>
 						</div>
@@ -105,7 +105,7 @@
 								<label for="radio_payment_3">Master Card</label>
 								<div class="master payment_option"><a href="#"><img src="images/icons/icon-pay-03.png" alt=""></a></div>
 							</div>
-							<button class="cart_total_button">place order</button>
+							<button id="rzp-button1" class="cart_total_button">place order (Razorpay)</button>
 						</div>
 					</div>
 				</div>
@@ -114,3 +114,55 @@
 	</div>
 {% endblock body %}
  
+{% block js %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+        
+	$jq(document).ready(function(){
+		$jq("#rzp-button1").click(function(e){
+			e.preventDefault();
+			alert("Button Clicked!"); // Debugging ke liye
+	
+			var userName = "{{ request.user.username }}";
+			var email = "{{ request.user.email }}";
+			var amount = "{{ total }}";
+	
+			$jq.get('makePayment', {amount: amount}, function(rt){
+				var options = {
+					"key": "rzp_test_wef6Tlaev3Pre9",
+					"amount": rt.amount,
+					"currency": "INR",
+					"name": "eZcart",
+					"description": "Test Transaction",
+					"image": window.location.origin + "/static/images/icons/logo-01.png",
+					"order_id": rt.id,
+					"handler": function (response){
+						alert("Payment Successful: " + response.razorpay_payment_id);
+						window.location.href = "/order-success/?payment_id=" + response.razorpay_payment_id;
+					},
+					"prefill": {
+						"name": userName,
+						"email": email,
+						"contact": "9000090000"
+					},
+					"notes": {
+						"address": "Razorpay Corporate Office"
+					},
+					"theme": {
+						"color": "#3399cc"
+					}
+				};
+				var rzp1 = new Razorpay(options);
+				rzp1.on('payment.failed', function (response){
+					alert("Payment Failed: " + response.error.description);
+				});
+				rzp1.open();
+			});
+		});
+	});
+	
+</script>
+
+
+{%endblock js%}

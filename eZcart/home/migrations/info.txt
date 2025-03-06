@@ -1,0 +1,35 @@
+⚡ Important Cheezein Jo Samajhni Chahiye
+1️⃣ Migrations Ka Impact
+Har migration ek naya database change record karti hai.
+Jitni zyada migrations, utna hi zyada execution time (but only first time).
+Old migrations se naye database me unnecessary complexity badh sakti hai.
+2️⃣ Migration Cleanup Kaise Karein?
+Jab bohot zyada migrations ho jayein, toh unhe "squash" karke merge karna better hota hai.
+
+✔ Example:
+Agar home/migrations/ me 50 migrations hain, toh unhe ek me merge karne ke liye:
+
+bash
+Copy
+Edit
+python manage.py squashmigrations home 0001  # First migration ko squash karo
+🔹 Yeh old migrations ko ek new migration me merge kar dega.
+
+3️⃣ Migrations Delete Karne Ka Kya Hoga?
+Agar tum migrations/ folder delete kar doge, toh:
+
+Database me purane migrations ke records rahenge, but Django unko track nahi karega.
+Dubara migrate karne par error aa sakta hai (Django kahega ki migrations already applied hain).
+Best practice: Migrations delete karne se pehle database reset karna hota hai.
+🛑 Agar Galti Se Migrations Folder Delete Kar Diya:
+bash
+Copy
+Edit
+python manage.py makemigrations --empty home  # Empty migration banao
+python manage.py migrate --fake home  # Fake migration apply karo (taaki error na aaye)
+🎯 Best Practice
+✅ Har 50+ migrations ke baad squash karna
+✅ Migrations folder manually delete mat karo
+✅ Production pe direct migrations delete karna risky hai
+
+Agar tumhara project bada ho raha hai, toh migrations ka dhyan rakhna zaroori hai! 🚀

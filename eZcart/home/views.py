@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from home.models import *
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.conf import settings
+import razorpay
 
 # Create your views here. 
 
@@ -78,20 +79,100 @@ def product_detail(request):
 
 @login_required(login_url="login_user")
 def shoping_cart(request):
-    return render(request, "shoping-cart.html")
+    user = request.user
+    cart, created = Cart.objects.get_or_create(user=user)
+    
+    # Fetch cart items, it may be empty
+    cart_items = CartItem.objects.filter(cart=cart)
+
+    total = 0
+    # If cart has no items, set total to 0
+    if not cart_items.exists():  
+        cart_items = []  # Ensure cart_items is an empty list
+        total = 0
+    else:
+        for item in cart_items:  
+            total += item.sub_total()  # Add each item's total price to subtotal
+
+    context = {
+        'cart_items': cart_items,
+        'total': total,
+        'is_empty': not bool(cart_items),  # Extra flag to check if cart is empty in template
+    }
+
+    return render(request, "shoping-cart.html", context)
+
+    
 
 def addToCart(request):
-    pid = request.GET.get('pid')  
+    pid = request.GET.get('pid') 
+    qty = int( request.GET.get('qty') )
     user_id = request.user.id if request.user.is_authenticated else None
     
     if not pid:
         return JsonResponse({"error": "Product ID is required"}, status=400)
 
-    print(pid, user_id)
-    # c = Cart.objects.create(user=user_id, )
-    return JsonResponse({"success": True, "message": "Product added to cart"})
+    print(pid, user_id, qty)
+    try:
+        user = request.user 
+        product = Product.objects.get(pk=pid)
 
+        # Get the user's cart, or create a new one if it doesn't exist
+        cart, created = Cart.objects.get_or_create(user=user)
+        
+        # Check if the product is already in the cart
+        cart_item = CartItem.objects.filter(cart=cart, product=product).first()
+        
+        if cart_item:
+            # Update the quantity if the product is already in the cart
+            cart_item.qty += qty
+            cart_item.save()
+        else:
+            # Create a new cart item if not already in the cart
+            CartItem.objects.create(cart=cart, product=product, qty=qty)
+            
+        return JsonResponse({"success": True, "message": "Product added to cart"})
     
+    except Product.DoesNotExist:
+        return JsonResponse({"error": "Product not found"}, status=404)
+
+def remove_from_cart(request):
+    if request.method == "POST":
+        product_id = request.POST.get("product_id")
+        try:
+            cart_item = CartItem.objects.get(product__id=product_id, cart__user=request.user)  # User ka check lagana zaroori hai
+            cart_item.delete()
+            return JsonResponse({"status": "success"})
+        except CartItem.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Item not found"})
+    
+    return JsonResponse({"status": "error", "message": "Invalid request"})
+
+@login_required(login_url="login_user")
+def checkout(request):
+    if request.method == "POST":
+        total = request.POST.get("total", 0)
+    else:
+        total = 0
+    return render(request, 'checkout.html', {'total': total})
+
+def makePayment(request):
+    amount_str = request.GET.get("amount")
+    amount_float = float(amount_str)
+    amount = int(amount_float)
+    print(type(amount))
+
+    client = razorpay.Client(auth=("rzp_test_wef6Tlaev3Pre9", "OeabKs2qmdPauM2RHWDQb9TG"))
+
+    data = { "amount": amount*100 , "currency": "INR", "receipt": "order_rcptid_11" }
+    payment = client.order.create(data=data) 
+
+    return JsonResponse(payment)
+
+# @login_required(login_url="login_user")
+def order_success(request):
+    payment_id = request.GET.get('payment_id')
+    return render(request, 'order-success.html', {"payment_id": payment_id})
 
 def whishlist(request):
     return render(request, "whishlist.html")
@@ -111,9 +192,6 @@ def about(request):
 def contact(request):
     return render(request, "contact.html")
 
-@login_required(login_url="login_user")
-def checkout(request):
-    return render(request, "checkout.html")
 
 def login_user(request):
     if request.user.is_authenticated:

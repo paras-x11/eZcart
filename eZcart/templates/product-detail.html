@@ -3,25 +3,7 @@
 {% block title %}Product Deatil{% endblock title %}
 
 {% block body %}
-<script>
-	function addToCart(productId) {
-		if (!productId) {
-			console.error("Product ID is missing!");  // Debugging log
-			return;
-		}
-	
-		$jq.get("/addToCart", { pid: productId }, function (response) {
-			if (response.success) {
-				swal("Success!", "Product added to cart!", "success");
-				// alert("yep")
-			} else {
-				swal("Error!", "Failed to add product!", "error");
-			}
-		}).fail(function () {
-			swal("Error!", "Something went wrong!", "error");
-		});
-	}
-</script>
+
 
 	<!-- breadcrumb -->
 	<div class="container">
@@ -132,7 +114,7 @@
 											<i class="fs-16 zmdi zmdi-minus"></i>
 										</div>
 
-										<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+										<input class="mtext-104 cl3 txt-center num-product" id="qty" name="qty" type="number" name="num-product" value="1">
 
 										<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 											<i class="fs-16 zmdi zmdi-plus"></i>
@@ -597,35 +579,52 @@
 {% block js %}
 
 <script>
-    $jq(document).ready(function () {
-        $jq('#loginModal').on('show.bs.modal', function () {
-            setTimeout(() => {
-                $jq(this).find('.modal-dialog').css({
-                    'position': 'absolute',
-                    'top': '50%',
-                    'left': '50%',
-                    'transform': 'translate(-50%, -50%)',
-                    'margin': '0',
-                    'max-width': '400px',
-                    'width': '100%'
-                });
-            }, 10);
-        });
-    });
-
-    function checkLoginAndAddToCart(productId) {
-        console.log("Function called!");
-
-        var isLoggedIn = "{{ request.user.is_authenticated }}" === "True";
-
-        if (isLoggedIn) {
-            console.log("User is logged in, adding to cart:", productId);
-            addToCart(productId);
-        } else {
-            console.log("User not logged in, showing login modal...");
-            $jq('#loginModal').modal('show');
-        }
-    }
+	$jq(document).ready(function () {
+		$jq('#loginModal').on('show.bs.modal', function () {
+			$jq(this).find('.modal-dialog').css({
+				'position': 'absolute',
+				'top': '50%',
+				'left': '50%',
+				'transform': 'translate(-50%, -50%)',
+				'margin': '0',
+				'max-width': '400px',
+				'width': '100%'
+			});
+		});
+	});
+	
+	function checkLoginAndAddToCart(productId) {
+		console.log("Function called!");
+	
+		var isLoggedIn = {{ request.user.is_authenticated|lower }};  // Django boolean passed correctly
+		var quantity = parseInt($jq('#qty').val()) || 1;  // Ensure valid number
+	
+		if (isLoggedIn) {
+			console.log("User is logged in, adding to cart:", productId);
+			addToCart(productId, quantity);
+		} else {
+			console.log("User not logged in, showing login modal...");
+			$jq('#loginModal').modal('show');
+		}
+	}
+	
+	function addToCart(productId, qty) {
+		if (!productId || qty <= 0) {
+			console.error("Invalid Product ID or quantity!");
+			return;
+		}
+	
+		$jq.get("/addToCart", { pid: productId, qty: qty }, function (response) {
+			if (response.success) {
+				swal("Success!", "Product added to cart!", "success");
+			} else {
+				swal("Error!", response.error || "Failed to add product!", "error");
+			}
+		}).fail(function () {
+			swal("Error!", "Something went wrong!", "error");
+		});
+	}
+	
 </script>
 
 {% endblock js %}

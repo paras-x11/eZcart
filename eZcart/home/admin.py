@@ -37,7 +37,7 @@ class CartAdmin(admin.ModelAdmin):
 
 # CartItem Admin
 class CartItemAdmin(admin.ModelAdmin):
-    list_display = ('cart', 'product', 'qty', 'total_price')
+    list_display = ('cart', 'product', 'qty', 'sub_total')
     search_fields = ('cart__user__username', 'product__productName')
 
 
