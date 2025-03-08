@@ -169,10 +169,44 @@ def makePayment(request):
 
     return JsonResponse(payment)
 
-# @login_required(login_url="login_user")
+@login_required(login_url="login_user")
+@login_required
 def order_success(request):
-    payment_id = request.GET.get('payment_id')
-    return render(request, 'order-success.html', {"payment_id": payment_id})
+    # Fetch user's cart
+    cart = Cart.objects.get(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    
+    # Create a new order
+    order = Order.objects.create(
+        user=request.user,
+        total_price=cart.total_cart_price(),
+        status='Completed'
+    )
+    
+    # Add items to the order
+    for item in cart_items:
+        OrderItem.objects.create(
+            order=order,
+            product=item.product,
+            qty=item.qty
+        )
+
+    # Optionally, clear the cart after order
+    cart_items.delete()
+
+    # Pass the ordered items to the template
+    ordered_items = order.order_items.all()
+    total_amount = order.total_price
+
+    context = {
+        'ordered_items': ordered_items,
+        'payment_id': "some_payment_id",  # You would need actual payment ID
+        'total_amount': total_amount,
+        'order_number': order.id,
+    }
+
+    return render(request, 'order-success.html', context)
+
 
 def whishlist(request):
     return render(request, "whishlist.html")
@@ -260,7 +294,37 @@ def help(request):
 def profile(request):
     if request.user.is_anonymous:
         return redirect("login_user")
-    return render(request, "profile.html")
+    # Fetch orders for the logged-in user
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')  # Sorted by most recent order
+
+    return render(request, 'profile.html', {'orders': orders})
+
+
+
+def order_detail(request, order_id):
+    # Fetch the order for the logged-in user using order_id
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    # Ensure the total_price is dynamically calculated based on the OrderItems
+    order.total_price = order.total_order_price()  # Recalculate total price
+    order.save()  # Save to update the order with the new total price
+
+    # Get the items in the order (i.e., all OrderItems for this order)
+    order_items = order.order_items.all()
+
+    # Pass the necessary data to the template
+    return render(
+        request,
+        'order_detail.html',
+        {
+            'order': order,
+            'ordered_items': order_items,
+            'payment_id': "dummy_payment_id",  # Replace with actual payment ID logic if available
+            'total_amount': order.total_price
+        }
+    )
+
+
 
 def my_orders(request):
     context = {
@@ -292,4 +356,3 @@ def home2(request):
 
 def home3(request):
     return render(request, "home-03.html")
-

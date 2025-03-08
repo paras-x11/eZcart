@@ -109,50 +109,27 @@
         
         
 
+        <!-- Orders Section -->
         <div class="col-md-8">
           <div id="orders" class="content-section">
             <h4>My Orders</h4>
+            <!-- orders section -->
             <ul class="list-group">
-              <li class="list-group-item">
-                <strong>Order #12345</strong>
-                <span class="float-end text-success">Delivered</span>
-              </li>
-              <li class="list-group-item">
-                <strong>Order #12346</strong>
-                <span class="float-end text-warning">Processing</span>
-              </li>
-            </ul>
-          </div>
-
-          <div id="wishlist" class="content-section" style="display: none;">
-            <h4>Wishlist</h4>
-            <ul class="list-group">
-              <li class="list-group-item">
-                Product 1
-                <button class="btn btn-danger btn-sm float-end" onclick="removeItemFromWishlist(this)">Remove</button>
-              </li>
-              <li class="list-group-item">
-                Product 2
-                <button class="btn btn-danger btn-sm float-end" onclick="removeItemFromWishlist(this)">Remove</button>
-              </li>
-            </ul>
-            <button class="btn btn-success mt-3" onclick="addItemToWishlist()">Explore New Item</button>
-          </div>
-
-          <div id="address" class="content-section" style="display: none;">
-            <h4>Address Book</h4>
-            <ul class="list-group">
+              {% for order in orders %}
                 <li class="list-group-item">
-                    <strong>Home Address</strong><br>
-                    1234 Main St, Springfield, IL
-                    <div class="btn-container">
-                        <button class="btn btn-warning btn-sm" onclick="editAddress(this)">Edit</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteAddress(this)">Delete</button>
-                    </div>
+                  <strong>Order #{{ order.id }}</strong> - 
+                  <span class="text-muted">Placed on {{ order.created_at|date:"F j, Y" }}</span>
+                  <span class="float-end text-success">{{ order.status }}</span>
+                  <!-- Clickable link to see order details -->
+                  <a href="{% url 'order_detail' order.id %}" class="btn btn-info float-end">View Details</a>
                 </li>
+              {% empty %}
+                <li class="list-group-item">You have no orders yet.</li>
+              {% endfor %}
             </ul>
-            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">Add New Address</button>
+          </div>
         </div>
+
         
 
           <div id="settings" class="content-section" style="display: none;">
@@ -193,7 +170,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Edit Profile</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
         </div>
         <div class="modal-body">
           <form>
@@ -340,6 +317,35 @@
     </div>
   </div>
 
+  <!-- Order Details Modal -->
+  <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>Order ID: {{ order.id }}</h6>
+          <p>Order placed on: {{ order.created_at|date:"F j, Y" }}</p>
+          <p>Status: {{ order.status }}</p>
+          <h5>Products in this order:</h5>
+          <ul>
+            {% for item in order_items %}
+              <li>{{ item.product.name }} (x{{ item.quantity }})</li>
+            {% empty %}
+              <li>No products in this order.</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- Bootstrap JS & JQuery -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -349,6 +355,12 @@
       document.getElementById('sidebar').classList.toggle('active');
       document.getElementById('content').classList.toggle('active');
     });
+
+    // Dynamically populate modal content when user clicks "View Details"
+    function showOrderDetails(orderId) {
+      // Use an AJAX call or just navigate to the order detail page
+      window.location.href = '/order/' + orderId + '/'; // Navigate to detailed order page
+    }
 
     // Content Switch Logic
     const links = document.querySelectorAll('#sidebar .nav-link');

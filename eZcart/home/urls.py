@@ -47,6 +47,7 @@ urlpatterns = [
     path('searchProduct', views.searchProduct, name="searchProduct"),
 
     path('profile', views.profile, name="profile"),
+    path('order/<int:order_id>/', views.order_detail, name='order_detail'),
     # path('profile/', include([
     #     path('my_orders', views.my_orders, name="my_orders"),
     #     path('my_wishlist', views.my_wishlist, name="my_wishlist"),
