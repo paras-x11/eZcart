@@ -29,6 +29,7 @@ urlpatterns = [
     path('shoping-cart', views.shoping_cart, name="shoping-cart"),
     path('addToCart', views.addToCart, name="addToCart"),
     path('remove_from_cart', views.remove_from_cart, name="remove_from_cart"),
+    path('changeQty', views.changeQty, name="changeQty"),
     path('makePayment', views.makePayment, name="makePayment"),
     path('order-success/', views.order_success, name="order-success"),
     path('whishlist', views.whishlist, name="whishlist"),

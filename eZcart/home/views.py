@@ -77,32 +77,7 @@ def product_detail(request):
     }
     return render(request, "product-detail.html", context)
 
-@login_required(login_url="login_user")
-def shoping_cart(request):
-    user = request.user
-    cart, created = Cart.objects.get_or_create(user=user)
-    
-    # Fetch cart items, it may be empty
-    cart_items = CartItem.objects.filter(cart=cart)
 
-    total = 0
-    # If cart has no items, set total to 0
-    if not cart_items.exists():  
-        cart_items = []  # Ensure cart_items is an empty list
-        total = 0
-    else:
-        for item in cart_items:  
-            total += item.sub_total()  # Add each item's total price to subtotal
-
-    context = {
-        'cart_items': cart_items,
-        'total': total,
-        'is_empty': not bool(cart_items),  # Extra flag to check if cart is empty in template
-    }
-
-    return render(request, "shoping-cart.html", context)
-
-    
 
 def addToCart(request):
     pid = request.GET.get('pid') 
@@ -149,12 +124,72 @@ def remove_from_cart(request):
     return JsonResponse({"status": "error", "message": "Invalid request"})
 
 @login_required(login_url="login_user")
-def checkout(request):
-    if request.method == "POST":
-        total = request.POST.get("total", 0)
-    else:
+def shoping_cart(request):
+    user = request.user
+    cart, created = Cart.objects.get_or_create(user=user)
+    
+    # Fetch cart items, it may be empty
+    cart_items = CartItem.objects.filter(cart=cart)
+
+    total = 0
+
+    if not cart_items.exists():  
+        cart_items = [] 
         total = 0
-    return render(request, 'checkout.html', {'total': total})
+    else:
+        for item in cart_items:  
+            total += item.sub_total()  
+
+    context = {
+        'cart_items': cart_items,
+        'total': total,
+        'is_empty': not bool(cart_items),  
+    }
+
+    return render(request, "shoping-cart.html", context)
+
+    
+
+def changeQty(request):
+    data = request.GET
+    qty = int(data.get("qty"))
+    cid = int(data.get("cid"))
+
+    cart_item = get_object_or_404(CartItem, pk=cid)
+
+    new_qty = cart_item.qty + qty
+    if new_qty < 1:
+        return JsonResponse({"status": "error", "message": "Quantity cannot be less than 1"})
+
+    cart_item.qty = new_qty
+    cart_item.save()
+
+    return JsonResponse({"status": "success", "new_qty": cart_item.qty, "total": cart_item.sub_total()})
+
+
+@login_required(login_url="login_user")
+def checkout(request):
+    user = request.user
+    cart, created = Cart.objects.get_or_create(user=user)
+
+    cart_items = CartItem.objects.filter(cart = cart)
+    total = 0
+
+    if not cart_items.exists():
+        cart_items = []
+        total = 0
+    else:
+        for items in cart_items:
+            total += items.sub_total()
+
+    context = {
+        'cart_items' : cart_items,
+        'total' : total,
+        'is_empty' : not bool(cart_items),
+    }
+
+    return render(request, 'checkout.html', context)
+
 
 def makePayment(request):
     amount_str = request.GET.get("amount")
@@ -170,7 +205,6 @@ def makePayment(request):
     return JsonResponse(payment)
 
 @login_required(login_url="login_user")
-@login_required
 def order_success(request):
     # Fetch user's cart
     cart = Cart.objects.get(user=request.user)
