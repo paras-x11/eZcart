@@ -10,6 +10,7 @@ import razorpay
 
 # Create your views here. 
 
+
 def index(request):
     categories = Category.objects.all()
     products = Product.objects.all()
