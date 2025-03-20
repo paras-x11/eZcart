@@ -124,7 +124,7 @@
 	$jq(document).ready(function(){
 		$jq("#rzp-button1").click(function(e){
 			e.preventDefault();
-			alert("Button Clicked!"); // Debugging ke liye
+			// alert("Button Clicked!"); // Debugging ke liye
 	
 			var userName = "{{ request.user.username }}";
 			var email = "{{ request.user.email }}";
@@ -140,8 +140,19 @@
 					"image": window.location.origin + "/static/images/icons/logo-01.png",
 					"order_id": rt.id,
 					"handler": function (response){
-						alert("Payment Successful: " + response.razorpay_payment_id);
-						window.location.href = "/order-success/?payment_id=" + response.razorpay_payment_id;
+						{% comment %} alert(response.razorpay_payment_id);
+						alert(response.razorpay_order_id);
+						alert(response.razorpay_signature) {% endcomment %}
+
+						alert("done payment")
+						$jq.get("create-order", {"payment_id": response.razorpay_payment_id}, function(rt){
+							if(rt.status === "success") {
+								alert("in succeess")
+								window.location.href = rt.redirect_url; // Redirect with order ID
+							} else {
+								alert("Order creation failed. Please contact support.");
+							}
+						});
 					},
 					"prefill": {
 						"name": userName,

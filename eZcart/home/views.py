@@ -205,8 +205,11 @@ def makePayment(request):
 
     return JsonResponse(payment)
 
+
 @login_required(login_url="login_user")
-def order_success(request):
+def create_order(request):
+    payment_id = request.GET.get('payment_id', 'N/A')
+
     # Fetch user's cart
     cart = Cart.objects.get(user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
@@ -215,7 +218,9 @@ def order_success(request):
     order = Order.objects.create(
         user=request.user,
         total_price=cart.total_cart_price(),
-        status='Completed'
+        status='Completed',
+        payment_id=payment_id,
+        payment_type="Online"
     )
     
     # Add items to the order
@@ -223,24 +228,66 @@ def order_success(request):
         OrderItem.objects.create(
             order=order,
             product=item.product,
+            # price=item.product.productPrice,
             qty=item.qty
         )
 
     # Optionally, clear the cart after order
     cart_items.delete()
 
-    # Pass the ordered items to the template
-    ordered_items = order.order_items.all()
-    total_amount = order.total_price
+    # **Redirect to order-success page with order ID**
+    return JsonResponse({"status": "success", "redirect_url": f"/order-success/{order.id}/"})
+
+
+@login_required(login_url="login_user")
+def order_success(request, order_id):
+    order = Order.objects.get(id=order_id, user=request.user)  # Fetch specific order
 
     context = {
-        'ordered_items': ordered_items,
-        'payment_id': "some_payment_id",  # You would need actual payment ID
-        'total_amount': total_amount,
+        'ordered_items': order.order_items.all(),
+        'payment_id': order.payment_id,
+        'total_amount': order.total_price,
         'order_number': order.id,
     }
-
     return render(request, 'order-success.html', context)
+
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from home.models import Order
+
+@login_required(login_url="login_user")
+def order_detail(request, order_id):
+    order = Order.objects.filter(id=order_id, user=request.user).first()
+
+    if not order:
+        return render(
+            request,
+            'order_detail.html',
+            {"order_not_found": True}
+        )
+
+    order.total_price = order.total_order_price()
+    order.save()  
+
+    order_items = order.order_items.all()
+
+    return render(
+        request,
+        'order_detail.html',
+        {
+            'order': order,
+            'ordered_items': order_items,
+            'payment_id': order.payment_id,  
+            'total_amount': order.total_price,
+            "order_not_found": False
+        }
+    )
+
+
+
+
 
 
 def whishlist(request):
@@ -335,29 +382,6 @@ def profile(request):
     return render(request, 'profile.html', {'orders': orders})
 
 
-
-def order_detail(request, order_id):
-    # Fetch the order for the logged-in user using order_id
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-
-    # Ensure the total_price is dynamically calculated based on the OrderItems
-    order.total_price = order.total_order_price()  # Recalculate total price
-    order.save()  # Save to update the order with the new total price
-
-    # Get the items in the order (i.e., all OrderItems for this order)
-    order_items = order.order_items.all()
-
-    # Pass the necessary data to the template
-    return render(
-        request,
-        'order_detail.html',
-        {
-            'order': order,
-            'ordered_items': order_items,
-            'payment_id': "dummy_payment_id",  # Replace with actual payment ID logic if available
-            'total_amount': order.total_price
-        }
-    )
 
 
 

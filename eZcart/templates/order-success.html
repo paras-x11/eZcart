@@ -90,7 +90,7 @@
         <h4>Order Summary</h4>
         <div class="order-summary-details">
             <ul class="list-unstyled">
-                <li><strong>Order Number:</strong> {{ order.id }}</li>
+                <li><strong>Order Number:</strong> {{ order_number }}</li>
                 <li><strong>Total Amount:</strong> ₹{{ total_amount|floatformat:2|default:"0.00" }}</li>
                 <li><strong>Shipping Address:</strong> {{ order.shipping_address|default:"Not Provided" }}</li>
             </ul>

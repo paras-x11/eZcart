@@ -1,43 +1,101 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<div class="container mt-4">
-    <h4>Order #{{ order.id|default:"N/A" }}</h4>
-    <p>Placed on: {{ order.created_at|date:"F j, Y" }}</p>
-    <p><strong>Status:</strong> <span class="badge {% if order.status == 'Completed' %}badge-success{% else %}badge-warning{% endif %}">
-        {{ order.status|default:"Pending" }}
-    </span></p>
+{% load custom_filters %}
 
-    <h5>Shipping Address:</h5>
-    <p>{{ order.shipping_address|default:"Not Provided" }}</p>
+{% load static %}
 
-    <h5>Products in this order:</h5>
-    <ul class="list-group">
-        {% for item in order_items %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <strong>{{ item.product.productName }}</strong> (x{{ item.qty }})<br>
-                    <small>Price: ₹{{ item.product.productPrice|floatformat:2 }}</small><br>
-                    <small>Total: ₹{{ item.total_price|floatformat:2 }}</small>
-                </div>
+{% block title %} Order Details {% endblock %}
+
+{% block body %}
+<style>
+    .order-details-container {
+        margin-top: 30px;
+    }
+    .order-info {
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .order-items {
+        margin-top: 20px;
+    }
+    .order-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .order-item img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-right: 15px;
+    }
+    .order-status {
+        font-weight: bold;
+        color: #28a745;
+    }
+    .btn-custom {
+        font-size: 16px;
+        padding: 12px 25px;
+        border-radius: 50px;
+        margin: 10px;
+    }
+</style>
+
+{% if order_not_found %}
+    <div class="alert alert-danger text-center">
+        <h4>❌ No Order Found</h4>
+        <p>The order you are looking for does not exist.</p>
+    </div>
+{% else %}
+
+<div class="container order-details-container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'profile' %}">My Orders</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Order Details</li>
+        </ol>
+    </nav>
+
+    <div class="order-info">
+        <h2>Order Details</h2>
+        <ul class="list-unstyled">
+            <li><strong>Order Number:</strong> {{ order.id }}</li>
+            <li><strong>Order Date:</strong> {{ order.created_at|date:"F d, Y" }}</li>
+            <li><strong>Order Status:</strong> <span class="order-status">{{ order.status }}</span></li>
+            <li><strong>Payment ID:</strong> {{ order.payment_id }}</li>
+            <li><strong>Total Amount:</strong> ₹{{ total_amount|floatformat:2 }}</li>
+            <li><strong>Shipping Address:</strong> {{ order.shipping_address }}</li>
+        </ul>
+    </div>
+
+    <div class="order-items">
+        <h3>Ordered Items</h3>
+        {% for item in ordered_items %}
+            <div class="order-item">
                 <img src="{{ item.product.productImage.url|default:'/static/images/placeholder.jpg' }}" 
-                     alt="{{ item.product.productName }}" class="rounded" width="50">
-            </li>
+                     alt="{{ item.product.productName }}">
+                <div>
+                    <p><strong>{{ item.product.productName }}</strong></p>
+                    <p>Quantity: {{ item.qty }}</p>
+                    <p>Price: ₹{{ item.product.productPrice|floatformat:2 }}</p>
+                    <p><strong>Total:</strong> ₹{{ item.qty|mul:item.product.productPrice|floatformat:2 }}</p>
+                </div>
+            </div>
         {% empty %}
-            <li class="list-group-item text-danger">No products in this order.</li>
+            <p>No items found in this order.</p>
         {% endfor %}
-    </ul>
+    </div>
 
-    <h5 class="mt-3">Order Summary:</h5>
-    <p><strong>Subtotal:</strong> ₹{{ order.subtotal|floatformat:2|default:"0.00" }}</p>
-    <p><strong>Shipping:</strong> ₹{{ order.shipping_cost|floatformat:2|default:"0.00" }}</p>
-    <p><strong>Total:</strong> <span class="text-success">₹{{ order.total|floatformat:2|default:"0.00" }}</span></p>
-
-    <!-- Show 'Track Order' button only if order is completed -->
-    {% if order.status == 'Completed' %}
-        <button class="btn btn-success mt-3">🚚 Track Order</button>
-    {% endif %}
-    
-    <a href="{% url 'user_profile' %}" class="btn btn-primary mt-3">🔙 Back to Profile</a>
+    <div class="mt-4 text-center">
+        <a href="{% url 'profile' %}" class="btn btn-info btn-lg btn-custom">📦 Back to My Orders</a>
+        <a href="{% url 'index' %}" class="btn btn-success btn-lg btn-custom">🏠 Go to Home</a>
+    </div>
 </div>
-{% endblock %}
+{% endif %}
+{% endblock body %}
