@@ -135,7 +135,7 @@
 
             <!-- Cart Button -->
             <div id="cartBtn1"
-                class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti {% comment %} {% if request.user.is_authenticated %} js-show-cart {% endif %}{% endcomment %}" data-notify="2">
+                class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti {% comment %} {% if request.user.is_authenticated %} js-show-cart {% endif %}{% endcomment %}" data-notify="{{ cart_count }}">
                 <i class="zmdi zmdi-shopping-cart"></i>
             </div>
 
@@ -185,7 +185,7 @@
 
         <!-- Cart Button -->
         <div id="cartBtn2"
-            class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti {% comment %} {% if request.user.is_authenticated %} js-show-cart {% endif %}{% endcomment %}" data-notify="2">
+            class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti {% comment %} {% if request.user.is_authenticated %} js-show-cart {% endif %}{% endcomment %}" data-notify="{{ cart_count }}">
             <i class="zmdi zmdi-shopping-cart"></i>
         </div>
 

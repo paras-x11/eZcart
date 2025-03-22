@@ -68,8 +68,10 @@ class CartItem(models.Model):
     #         super().save(*args, **kwargs)  # Save normally if no existing item.
     
 
+
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    house_no = models.IntegerField(null=True)
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
@@ -80,6 +82,10 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.street}, {self.city}"
 
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product_name = models.CharField(max_length=200)
+    product_url = models.URLField()
 
 # Order Model (new)
 class Order(models.Model):

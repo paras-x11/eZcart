@@ -144,10 +144,10 @@
 						alert(response.razorpay_order_id);
 						alert(response.razorpay_signature) {% endcomment %}
 
-						alert("done payment")
+						{% comment %} alert("done payment") {% endcomment %}
 						$jq.get("create-order", {"payment_id": response.razorpay_payment_id}, function(rt){
 							if(rt.status === "success") {
-								alert("in succeess")
+								{% comment %} alert("in succeess") {% endcomment %}
 								window.location.href = rt.redirect_url; // Redirect with order ID
 							} else {
 								alert("Order creation failed. Please contact support.");

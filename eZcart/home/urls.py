@@ -50,6 +50,8 @@ urlpatterns = [
 
     path('profile', views.profile, name="profile"),
     path('order/<int:order_id>/', views.order_detail, name='order_detail'),
+    path('add_address/', views.add_address, name='add_address'),
+    path('add_to_wishlist/', views.add_to_wishlist, name='add_to_wishlist'),
     # path('profile/', include([
     #     path('my_orders', views.my_orders, name="my_orders"),
     #     path('my_wishlist', views.my_wishlist, name="my_wishlist"),
@@ -57,6 +59,8 @@ urlpatterns = [
     #     path('acc_setting', views.acc_setting, name="acc_setting"),
     # ])),
     
+    path('home-02/', views.home2, name='home-2'),
+    path('home-03/', views.home3, name='home-3'),
 ]
 
 if settings.DEBUG:

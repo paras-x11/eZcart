@@ -1,137 +1,101 @@
 {% extends 'base.html' %}
 
-{% block title %} Order Successful {% endblock %}
+{% load custom_filters %}
+
+{% load static %}
+
+{% block title %} Order Details {% endblock %}
 
 {% block body %}
 <style>
-    .success-message {
-        background-color: #e9f7e9;
-        border: 1px solid #28a745;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    .order-details-container {
         margin-top: 30px;
     }
-
-    .order-summary-card {
-        background-color: #f9f9f9;
+    .order-info {
+        background: #fff;
         border: 1px solid #ddd;
+        padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-top: 30px;
     }
-
-    .order-summary-card h4 {
-        font-weight: bold;
-        margin-bottom: 15px;
+    .order-items {
+        margin-top: 20px;
     }
-
-    .order-summary-item {
-        margin-bottom: 10px;
+    .order-item {
         display: flex;
-        {% comment %} align-items: center; {% endcomment %}
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
     }
-
-    .order-summary-item img {
-        width: 60px;
-        height: 60px;
+    .order-item img {
+        width: 70px;
+        height: 70px;
         object-fit: cover;
         border-radius: 5px;
         margin-right: 15px;
     }
-
-    .payment-id {
+    .order-status {
         font-weight: bold;
         color: #28a745;
     }
-
     .btn-custom {
         font-size: 16px;
-        padding: 15px 30px;
+        padding: 12px 25px;
         border-radius: 50px;
         margin: 10px;
     }
-
-    .order-thankyou {
-        margin-top: 40px;
-        font-size: 24px;
-        color: #333;
-    }
-
-    .breadcrumb {
-        background-color: transparent;
-        padding: 0;
-    }
-
-    .breadcrumb-item a {
-        color: #007bff;
-    }
-
-    .breadcrumb-item.active {
-        color: #6c757d;
-    }
 </style>
 
-<div class="container text-center mt-5">
+{% if order_not_found %}
+    <div class="alert alert-danger text-center">
+        <h4>❌ No Order Found</h4>
+        <p>The order you are looking for does not exist.</p>
+    </div>
+{% else %}
+
+<div class="container order-details-container">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb justify-content-center">
+        <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Order Confirmation</li>
+            <li class="breadcrumb-item"><a href="{% url 'profile' %}">My Orders</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Order Details</li>
         </ol>
     </nav>
 
-    <div class="alert alert-success success-message">
-        <h2 class="text-success">🎉 Payment Successful! 🎉</h2>
-        <p class="lead">Thank you for shopping with us! Your order is now confirmed.</p>
+    <div class="order-info">
+        <h2>Order Details</h2>
+        <ul class="list-unstyled">
+            <li><strong>Order Number:</strong> {{ order.id }}</li>
+            <li><strong>Order Date:</strong> {{ order.created_at|date:"F d, Y" }}</li>
+            <li><strong>Order Status:</strong> <span class="order-status">{{ order.status }}</span></li>
+            <li><strong>Payment ID:</strong> {{ order.payment_id }}</li>
+            <li><strong>Total Amount:</strong> ₹{{ total_amount|floatformat:2 }}</li>
+            <li><strong>Shipping Address:</strong> {{ order.shipping_address }}</li>
+        </ul>
     </div>
 
-    <div class="order-summary-card">
-        <h4>Order Summary</h4>
-        <div class="order-summary-details">
-            <ul class="list-unstyled">
-                <li><strong>Order Number:</strong> {{ order_number }}</li>
-                <li><strong>Total Amount:</strong> ₹{{ total_amount|floatformat:2|default:"0.00" }}</li>
-                <li><strong>Shipping Address:</strong> {{ order.shipping_address|default:"Not Provided" }}</li>
-            </ul>
-        </div>
-        <p><strong>Razorpay Order ID:</strong> {{ order.razorpay_order_id }}</p>
-        <p><strong>Payment ID:</strong> {{ order.payment_id }}</p>
-
-        <p>We’ve received your payment successfully. Keep this Payment ID for your records.</p>
-    </div>
-
-    <div class="order-summary-card">
-        <h4>Ordered Items</h4>
-        {% if ordered_items %}
-            {% for item in ordered_items %}
-                <div class="order-summary-item">
-                    <img src="{{ item.product.productImage.url|default:'/static/images/placeholder.jpg' }}" 
-                         alt="{{ item.product.productName }}">
-                    <div>
-                        <p><strong>{{ item.product.productName }}</strong></p>
-                        <p>Quantity: {{ item.qty }}</p>
-                        <p>Total: ₹{{ item.qty|floatformat:2|default:"0" }} × ₹{{ item.product.productPrice|floatformat:2|default:"0" }} = ₹{{ item.qty|add:item.product.productPrice|floatformat:2 }}</p>
-                    </div>
+    <div class="order-items">
+        <h3>Ordered Items</h3>
+        {% for item in ordered_items %}
+            <div class="order-item">
+                <img src="{{ item.product.productImage.url|default:'/static/images/placeholder.jpg' }}" 
+                     alt="{{ item.product.productName }}">
+                <div>
+                    <p><strong>{{ item.product.productName }}</strong></p>
+                    <p>Quantity: {{ item.qty }}</p>
+                    <p>Price: ₹{{ item.product.productPrice|floatformat:2 }}</p>
+                    <p><strong>Total:</strong> ₹{{ item.qty|mul:item.product.productPrice|floatformat:2 }}</p>
                 </div>
-            {% endfor %}
-        {% else %}
+            </div>
+        {% empty %}
             <p>No items found in this order.</p>
-        {% endif %}
+        {% endfor %}
     </div>
 
-    <div class="mt-4">
-        <a href="{% url 'index' %}" class="btn btn-success btn-lg btn-custom">
-            🏠 Go to Home
-        </a>
-        <a href="{% url 'profile' %}" class="btn btn-info btn-lg btn-custom">
-            📦 View Your Order
-        </a>
-    </div>
-
-    <div class="order-thankyou">
-        <p>We appreciate your business and look forward to serving you again soon!</p>
+    <div class="mt-4 text-center">
+        <a href="{% url 'profile' %}" class="btn btn-info btn-lg btn-custom">📦 Back to My Orders</a>
+        <a href="{% url 'index' %}" class="btn btn-success btn-lg btn-custom">🏠 Go to Home</a>
     </div>
 </div>
-
+{% endif %}
 {% endblock body %}

@@ -372,14 +372,56 @@ def logout_user(request):
 def help(request):
     return render(request, "help.html")
 
-@login_required(login_url="login_user")
-def profile(request):
-    if request.user.is_anonymous:
-        return redirect("login_user")
-    # Fetch orders for the logged-in user
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')  # Sorted by most recent order
+from django.shortcuts import render, redirect
+from .models import Address, Wishlist
+from django.contrib.auth.decorators import login_required
 
-    return render(request, 'profile.html', {'orders': orders})
+@login_required
+def profile(request):
+    # Get user address and wishlist
+    addresses = Address.objects.filter(user=request.user)
+    wishlist_items = Wishlist.objects.filter(user=request.user)
+    orders = Order.objects.filter(user=request.user)  # Assuming you already have an Order model
+
+    context = {
+        'addresses': addresses,
+        'wishlist_items': wishlist_items,
+        'orders': orders,
+    }
+    return render(request, 'profile.html', context)
+
+@login_required
+def add_address(request):
+    if request.method == "POST":
+        house_no = request.POST['house_no']
+        street = request.POST['street']
+        city = request.POST['city']
+        state = request.POST['state']
+        zip_code = request.POST['zip_code']
+        
+        Address.objects.create(
+            user=request.user,
+            house_no=house_no,
+            street=street,
+            city=city,
+            state=state,
+            zip_code=zip_code
+        )
+        return redirect('profile')
+
+@login_required
+def add_to_wishlist(request):
+    if request.method == "POST":
+        product_name = request.POST['product_name']
+        product_url = request.POST['product_url']
+        
+        Wishlist.objects.create(
+            user=request.user,
+            product_name=product_name,
+            product_url=product_url
+        )
+        return redirect('profile')
+
 
 
 
