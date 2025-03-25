@@ -252,11 +252,6 @@ def order_success(request, order_id):
     return render(request, 'order-success.html', context)
 
 
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from home.models import Order
-
 @login_required(login_url="login_user")
 def order_detail(request, order_id):
     order = Order.objects.filter(id=order_id, user=request.user).first()
@@ -372,9 +367,6 @@ def logout_user(request):
 def help(request):
     return render(request, "help.html")
 
-from django.shortcuts import render, redirect
-from .models import Address, Wishlist
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def profile(request):
@@ -421,8 +413,6 @@ def add_to_wishlist(request):
             product_url=product_url
         )
         return redirect('profile')
-
-
 
 
 

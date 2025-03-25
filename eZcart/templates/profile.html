@@ -11,11 +11,82 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}" />
-
   <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <style>
+    /* Basic Styling */
+    #sidebar {
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background-color: #333;
+      color: white;
+      padding-top: 20px;
+      transition: transform 0.3s ease;
+      z-index: 9999;
+    }
+    
+    /* When the sidebar is active, slide it in */
+    #sidebar.active {
+      transform: translateX(0);
+    }
+    
+    /* When the sidebar is not active, slide it out */
+    #sidebar:not(.active) {
+      transform: translateX(-250px);
+    }
+    
+    /* Make sure the content area shifts when sidebar is active */
+    #content.active {
+      margin-left: 250px;
+    }
+    
+    /* On mobile, sidebar should always be visible but still be able to hide it */
+    @media (max-width: 992px) {
+      #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200px;
+      }
+    
+      #content.active {
+        margin-left: 200px;
+      }
+    
+      #toggle-btn {
+        display: block;
+      }
+    }
+    
+    /* On smaller screens, adjust for better view */
+    @media (max-width: 392px) {
+      #sidebar {
+        width: 100%;
+        top: 0;
+      }
+    
+      #content {
+        margin-left: 0 !important;
+      }
+    
+      /* Fix the sidebar button for mobile */
+      #toggle-btn {
+        display: block;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 999;
+      }
+    }
 
-
-
+    #content {
+      transition: margin-left 0.3s ease;
+    }
+    
+    
+  </style>
 </head>
 
 <body>
@@ -44,7 +115,7 @@
     <h2 class="text-light border-bottom">User Profile</h2>
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" href="#orders">
+        <a class="nav-link" href="#orders">
           <i class="fas fa-box-open"></i> My Orders
         </a>
       </li>
@@ -75,16 +146,17 @@
   <main id="content">
     <div class="container mt-4">
       <div class="row">
+        <!-- Profile Section -->
         <div class="col-md-4 profile-col">
           <div class="profile-card">
             <div class="image">
               <img src="images/product-min-01.jpg" alt="User Profile Image" class="profile-img">
             </div>
-        
+
             <div class="text-data">
               <span class="name" id="profile-name">{{ request.user.username }}</span>
             </div>
-        
+
             <div class="details">
               <ul>
                 <li><i class="fas fa-envelope"></i> <span id="profile-email">{{ request.user.email }}</span></li>
@@ -93,34 +165,30 @@
                 <li><i class="fas fa-map"></i> 123 Main Street, Anytown, USA</li>
               </ul>
             </div>
-        
+
             <div class="media-buttons">
               <a href="#" style="background: #4267b2" class="link"><i class="fa fa-facebook"></i></a>
               <a href="#" style="background: #1da1f2" class="link"><i class="fa fa-twitter"></i></a>
               <a href="#" style="background: #e1306c" class="link"><i class="fa fa-instagram"></i></a>
               <a href="#" style="background: #ff0000" class="link"><i class="fa fa-youtube"></i></a>
             </div>
-        
+
             <!-- Edit Profile Button -->
             <button class="profile-btn" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
           </div>
         </div>
-        
-        
-        
 
-        <!-- Orders Section -->
+        <!-- Right Side Sections -->
         <div class="col-md-8">
+          <!-- Orders Section -->
           <div id="orders" class="content-section">
             <h4>My Orders</h4>
-            <!-- orders section -->
             <ul class="list-group">
               {% for order in orders %}
                 <li class="list-group-item">
                   <strong>Order #{{ order.id }}</strong> - 
                   <span class="text-muted">Placed on {{ order.created_at|date:"F j, Y" }}</span>
                   <span class="float-end text-success">{{ order.status }}</span>
-                  <!-- Clickable link to see order details -->
                   <a href="{% url 'order_detail' order.id %}" class="btn btn-info float-end">View Details</a>
                 </li>
               {% empty %}
@@ -128,18 +196,48 @@
               {% endfor %}
             </ul>
           </div>
-        </div>
 
-        
+          <!-- Address Book Section -->
+          <div id="address" class="content-section" style="display:none;">
+            <h4>My Address Book</h4>
+            <ul class="list-group">
+              {% for address in addresses %}
+                <li class="list-group-item">
+                  <strong>{{ address.house_no }}, {{ address.street }}</strong><br>
+                  {{ address.city }}, {{ address.state }} - {{ address.zip_code }}
+                  <button class="btn btn-warning float-end" onclick="editAddress({{ address.id }})">Edit</button>
+                </li>
+              {% empty %}
+                <li class="list-group-item">No addresses added yet.</li>
+              {% endfor %}
+            </ul>
+            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">Add Address</button>
+          </div>
 
-          <div id="settings" class="content-section" style="display: none;">
+          <!-- Wishlist Section -->
+          <div id="wishlist" class="content-section" style="display:none;">
+            <h4>My Wishlist</h4>
+            <ul class="list-group">
+              {% for item in wishlist_items %}
+                <li class="list-group-item">
+                  <strong>{{ item.product_name }}</strong>
+                  <a href="{{ item.product_url }}" class="btn btn-link float-end" target="_blank">View Product</a>
+                  <button class="btn btn-danger float-end me-2" onclick="removeItemFromWishlist(this)">Remove</button>
+                </li>
+              {% empty %}
+                <li class="list-group-item">Your wishlist is empty.</li>
+              {% endfor %}
+            </ul>
+            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addToWishlistModal">Add to Wishlist</button>
+          </div>
+
+          <!-- Settings Section -->
+          <div id="settings" class="content-section" style="display:none;">
             <h4>Account Settings</h4>
             <ul class="list-group">
               <li class="list-group-item">
-                <button class="btn btn-outline-warning w-100" data-bs-toggle="modal"
-                  data-bs-target="#changePasswordModal">Change Password</button>
-                <button class="btn btn-danger w-100 mt-2" data-bs-toggle="modal"
-                  data-bs-target="#deleteAccountModal">Delete Account</button>
+                <button class="btn btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</button>
+                <button class="btn btn-danger w-100 mt-2" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete Account</button>
               </li>
             </ul>
           </div>
@@ -163,7 +261,8 @@
     </p>
   </footer>
 
-  <!-- Modals -->
+  <!-- Add your modal code here (for editing profile, adding address, etc.) -->
+    <!-- Modals -->
   <!-- Edit Profile Modal -->
   <div class="modal fade" id="editProfileModal">
     <div class="modal-dialog">
@@ -217,42 +316,70 @@
     </div>
   </div>
 
-  <!-- Add Address Modal -->
-  <div class="modal fade" id="addAddressModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Address</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label>House No</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>Street</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>City</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>State</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>Zip Code</label>
-              <input type="text" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Save Address</button>
-          </form>
-        </div>
+<!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Address</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'add_address' %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label>House No</label>
+            <input type="text" class="form-control" name="house_no" required>
+          </div>
+          <div class="form-group">
+            <label>Street</label>
+            <input type="text" class="form-control" name="street" required>
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" class="form-control" name="city" required>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" class="form-control" name="state" required>
+          </div>
+          <div class="form-group">
+            <label>Zip Code</label>
+            <input type="text" class="form-control" name="zip_code" required>
+          </div>
+          <button type="submit" class="btn btn-success">Save Address</button>
+        </form>
       </div>
     </div>
   </div>
+</div>
+
+
+<!-- Add to Wishlist Modal -->
+<div class="modal fade" id="addToWishlistModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add to Wishlist</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'add_to_wishlist' %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label>Product Name</label>
+            <input type="text" class="form-control" name="product_name" required>
+          </div>
+          <div class="form-group">
+            <label>Product URL</label>
+            <input type="url" class="form-control" name="product_url" required>
+          </div>
+          <button type="submit" class="btn btn-success">Add to Wishlist</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Edit Address Modal -->
   <div class="modal fade" id="editAddressModal">
@@ -344,23 +471,15 @@
       </div>
     </div>
   </div>
-
-
   <!-- Bootstrap JS & JQuery -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- JavaScript Logic for Sidebar, Notifications, etc. -->
   <script>
-    // Sidebar Toggle Logic
     document.getElementById('toggle-btn').addEventListener('click', function () {
       document.getElementById('sidebar').classList.toggle('active');
       document.getElementById('content').classList.toggle('active');
     });
-
-    // Dynamically populate modal content when user clicks "View Details"
-    function showOrderDetails(orderId) {
-      // Use an AJAX call or just navigate to the order detail page
-      window.location.href = '/order/' + orderId + '/'; // Navigate to detailed order page
-    }
 
     // Content Switch Logic
     const links = document.querySelectorAll('#sidebar .nav-link');
@@ -378,65 +497,14 @@
       });
     });
 
-
-    const addItemToWishlist = () => {
-      window.location.href = "{% url 'index' %}";
-    }
-
-  </script>
-  <script>
-    setTimeout(() => {
-      document.getElementById('notification').style.display = 'none';
-    }, 5000); // Hide the notification after 5 seconds
-
+    // Wishlist remove item
     function removeItemFromWishlist(button) {
       button.parentElement.remove();
     }
 
-    document.getElementById('changePasswordForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // Prevent form submission
-      const currentPassword = document.getElementById('currentPassword').value;
-      const newPassword = document.getElementById('newPassword').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-
-      if (newPassword !== confirmPassword) {
-        alert("Passwords do not match!");
-      } else {
-        // Proceed with password change logic
-      }
-    });
-
-    document.querySelector('input[type="file"]').addEventListener('change', function (e) {
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        document.querySelector('.card-img-top').src = event.target.result;
-      };
-      reader.readAsDataURL(this.files[0]);
-    });
-
-  </script>
-  <script>
-    // Open Edit Address Modal and pre-fill form
-    function editAddress(button) {
-      // Find the address details from the list item
-      const addressItem = button.closest('.list-group-item');
-      const addressText = addressItem.innerText;
-
-      // Split the address into different parts (assuming the format is simple)
-      const addressParts = addressText.split('\n');
-      const [houseNo, street, city, state] = addressParts;
-
-      // Populate modal fields with existing address data
-      document.querySelector('#editAddressModal input[name="houseNo"]').value = houseNo.replace('Home Address', '').trim();
-      document.querySelector('#editAddressModal input[name="street"]').value = street.trim();
-      document.querySelector('#editAddressModal input[name="city"]').value = city.trim();
-      document.querySelector('#editAddressModal input[name="state"]').value = state.trim();
-
-      // Show the modal
-      const editAddressModal = new bootstrap.Modal(document.getElementById('editAddressModal'));
-      editAddressModal.show();
+    const addItemToWishlist = () => {
+      window.location.href = "{% url 'index' %}";
     }
-
   </script>
 </body>
 
