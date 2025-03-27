@@ -7,6 +7,9 @@ from home.models import *
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 import razorpay
+from django.core.mail import send_mail
+from django.views.decorators.cache import never_cache
+
 
 # Create your views here. 
 
@@ -64,6 +67,7 @@ def searchProduct(request):
     ]
     return JsonResponse({"cproducts": product_list})
 
+@never_cache
 def product_detail(request):
     id = request.GET['id']
     pdata = Product.objects.get(pk=id)
@@ -124,6 +128,8 @@ def remove_from_cart(request):
     
     return JsonResponse({"status": "error", "message": "Invalid request"})
 
+
+@never_cache
 @login_required(login_url="login_user")
 def shoping_cart(request):
     user = request.user
@@ -168,6 +174,7 @@ def changeQty(request):
     return JsonResponse({"status": "success", "new_qty": cart_item.qty, "total": cart_item.sub_total()})
 
 
+@never_cache
 @login_required(login_url="login_user")
 def checkout(request):
     user = request.user
@@ -205,6 +212,40 @@ def makePayment(request):
 
     return JsonResponse(payment)
 
+# Helper function to send the order confirmation email
+def send_order_confirmation_email(order, user):
+    subject = f"Order Confirmation - #{order.id}"
+    recipient_email = user.email
+
+    # Order Items Summary
+    items_detail = "\n".join([
+        f" - {item.product.productName} (Qty: {item.qty}) - ₹{item.sub_total():.2f}"
+        for item in order.order_items.all()
+    ])
+
+    # Email Content
+    message = f"""
+    Hi {user.first_name},
+
+    Your order has been successfully placed!
+
+    📦 Order Details:
+    ------------------------
+    Order Id: {order.id}
+    Payment ID: {order.payment_id or "N/A"}
+    Total Amount: ₹{order.total_price:.2f}
+
+    🛒 Ordered Items:
+    {items_detail}
+
+    Thank you for shopping with us!
+
+    Regards,
+    eZcart Team
+    """
+
+    # Send the email
+    send_mail(subject, message, 'imurfriend987@gmail.com', [recipient_email])
 
 @login_required(login_url="login_user")
 def create_order(request):
@@ -232,18 +273,24 @@ def create_order(request):
             qty=item.qty
         )
 
-    # Optionally, clear the cart after order
     cart_items.delete()
-
-    # **Redirect to order-success page with order ID**
-    return JsonResponse({"status": "success", "redirect_url": f"/order-success/{order.id}/"})
+    
+    send_order_confirmation_email(order, request.user)
+    
+    return JsonResponse({"status": "success", "redirect_url": f"/order-success/{order.id}/"})          # **Redirect to order-success page with order ID**
 
 
 @login_required(login_url="login_user")
 def order_success(request, order_id):
-    order = Order.objects.get(id=order_id, user=request.user)  # Fetch specific order
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    # Ensure total is up-to-date if not already stored
+    if order.total_price != order.total_order_price():
+        order.total_price = order.total_order_price()
+        order.save()
 
     context = {
+        'order': order,
         'ordered_items': order.order_items.all(),
         'payment_id': order.payment_id,
         'total_amount': order.total_price,
@@ -257,28 +304,21 @@ def order_detail(request, order_id):
     order = Order.objects.filter(id=order_id, user=request.user).first()
 
     if not order:
-        return render(
-            request,
-            'order_detail.html',
-            {"order_not_found": True}
-        )
+        return render(request, 'order_detail.html', {"order_not_found": True})
 
     order.total_price = order.total_order_price()
     order.save()  
 
     order_items = order.order_items.all()
-
-    return render(
-        request,
-        'order_detail.html',
-        {
-            'order': order,
-            'ordered_items': order_items,
-            'payment_id': order.payment_id,  
-            'total_amount': order.total_price,
-            "order_not_found": False
-        }
-    )
+    
+    context = {
+        'order': order,
+        'ordered_items': order_items,
+        'payment_id': order.payment_id,  
+        'total_amount': order.total_price,
+        "order_not_found": False
+    }
+    return render(request, 'order_detail.html', context)
 
 
 
@@ -367,22 +407,51 @@ def logout_user(request):
 def help(request):
     return render(request, "help.html")
 
-
-@login_required
+@login_required(login_url="login_user")
 def profile(request):
-    # Get user address and wishlist
+    # Get user address, wishlist, and orders
     addresses = Address.objects.filter(user=request.user)
     wishlist_items = Wishlist.objects.filter(user=request.user)
-    orders = Order.objects.filter(user=request.user)  # Assuming you already have an Order model
+    orders = Order.objects.filter(user=request.user)
 
     context = {
         'addresses': addresses,
         'wishlist_items': wishlist_items,
         'orders': orders,
+        'user': request.user,  # Send user data
     }
     return render(request, 'profile.html', context)
 
-@login_required
+@login_required(login_url="login_user")
+def edit_profile(request):
+    if request.method == 'POST':
+        user = request.user
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        profile_image = request.FILES.get('profile_image')
+
+        # Split full name into first and last name
+        if full_name:
+            name_parts = full_name.split(' ', 1)
+            user.first_name = name_parts[0]
+            user.last_name = name_parts[1] if len(name_parts) > 1 else ""
+
+        # Update fields
+        user.email = email
+        user.profile.phone = phone
+
+        if profile_image:
+            user.profile.profile_image = profile_image
+
+        user.save()
+        user.profile.save()
+
+        messages.success(request, "Profile updated successfully!")
+        return redirect('profile')
+    return redirect('profile')
+
+@login_required(login_url="login_user")
 def add_address(request):
     if request.method == "POST":
         house_no = request.POST['house_no']
@@ -401,7 +470,7 @@ def add_address(request):
         )
         return redirect('profile')
 
-@login_required
+@login_required(login_url="login_user")
 def add_to_wishlist(request):
     if request.method == "POST":
         product_name = request.POST['product_name']

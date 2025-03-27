@@ -49,6 +49,7 @@ urlpatterns = [
     path('searchProduct', views.searchProduct, name="searchProduct"),
 
     path('profile', views.profile, name="profile"),
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
     path('order/<int:order_id>/', views.order_detail, name='order_detail'),
     path('add_address/', views.add_address, name='add_address'),
     path('add_to_wishlist/', views.add_to_wishlist, name='add_to_wishlist'),

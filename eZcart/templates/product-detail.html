@@ -626,7 +626,7 @@
 
         if (isLoggedIn) {
             console.log("User is logged in, adding to cart:", productId);
-            addToCart(productId, quantity);
+            addToCart(productId, quantity);		
         } else {
             console.log("User not logged in, showing login modal...");
             if (window.innerWidth <= 992) {
@@ -647,8 +647,10 @@
 
         $jq.get("/addToCart", { pid: productId, qty: qty }, function (response) {
             if (response.success) {
-                swal("Success!", "Product added to cart!", "success");
-            } else {
+				swal("Success!", "Product added to cart!", "success").then(function() {
+					location.reload(); 
+				});
+			} else {
                 swal("Error!", response.error || "Failed to add product!", "error");
             }
         }).fail(function () {

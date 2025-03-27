@@ -128,6 +128,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "rp10paras@gmail.com"
+EMAIL_HOST_PASSWORD = "jldy zgtw rwhk eiaw"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -155,5 +162,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / "static/images"
-
 

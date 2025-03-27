@@ -177,5 +177,12 @@
 	
 </script>
 
+<script>
+	// Force refresh on page load (when user navigates back)
+	if (performance.navigation.type === 2) {
+		location.reload();
+	}
+</script>
+
 
 {%endblock js%}

@@ -65,32 +65,35 @@
     <div class="order-info">
         <h2>Order Details</h2>
         <ul class="list-unstyled">
-            <li><strong>Order Number:</strong> {{ order.id }}</li>
+            <li><strong>Order Id:</strong> {{ order.id }}</li>
             <li><strong>Order Date:</strong> {{ order.created_at|date:"F d, Y" }}</li>
             <li><strong>Order Status:</strong> <span class="order-status">{{ order.status }}</span></li>
-            <li><strong>Payment ID:</strong> {{ order.payment_id }}</li>
+            <li><strong>Payment ID:</strong> {{ order.payment_id|default:"N/A" }}</li>
             <li><strong>Total Amount:</strong> ₹{{ total_amount|floatformat:2 }}</li>
             <li><strong>Shipping Address:</strong> {{ order.shipping_address }}</li>
         </ul>
     </div>
-
+    
     <div class="order-items">
         <h3>Ordered Items</h3>
-        {% for item in ordered_items %}
-            <div class="order-item">
-                <img src="{{ item.product.productImage.url|default:'/static/images/placeholder.jpg' }}" 
-                     alt="{{ item.product.productName }}">
-                <div>
-                    <p><strong>{{ item.product.productName }}</strong></p>
-                    <p>Quantity: {{ item.qty }}</p>
-                    <p>Price: ₹{{ item.product.productPrice|floatformat:2 }}</p>
-                    <p><strong>Total:</strong> ₹{{ item.qty|mul:item.product.productPrice|floatformat:2 }}</p>
+        {% if ordered_items %}
+            {% for item in ordered_items %}
+                <div class="order-item">
+                    <img src="{{ item.product.productImage.url|default:'/static/images/placeholder.jpg' }}" 
+                         alt="{{ item.product.productName }}">
+                    <div>
+                        <p><strong>{{ item.product.productName }}</strong></p>
+                        <p>Quantity: {{ item.qty }}</p>
+                        <p>Price: ₹{{ item.product.productPrice|floatformat:2 }}</p>
+                        <p><strong>Total:</strong> ₹{{ item.sub_total|floatformat:2 }}</p>
+                    </div>
                 </div>
-            </div>
-        {% empty %}
+            {% endfor %}
+        {% else %}
             <p>No items found in this order.</p>
-        {% endfor %}
+        {% endif %}
     </div>
+    
 
     <div class="mt-4 text-center">
         <a href="{% url 'profile' %}" class="btn btn-info btn-lg btn-custom">📦 Back to My Orders</a>
