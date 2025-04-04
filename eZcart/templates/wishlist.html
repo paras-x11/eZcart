@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Wishlist{% endblock title %}
+
+{% block style %}
+<style>
+    .icon-heart2 {
+        opacity: 1 !important;
+    }
+    .btn-addwish-b2 {
+        padding-left: 20px;
+    }
+</style>
+
+{% endblock style %}
+
+
+
+{% block body %}
+
+    <!-- Product -->
+    <section class="bg0 p-t-23 p-b-140">
+        <div class="container">
+            <div class="p-b-30">
+				<h3 style="text-align:center;" class="ltext-105 cl5">
+					Your Wishlist
+				</h3>
+			</div>
+            <div class="row isotope-grid">     
+
+                {% for item in wishlist_items %}
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
+                    <div class="block2">
+                        <div class="block2-pic hov-img0">
+                            <img src="{{ item.product.productImage.url }}" alt="{{ item.product.productName }}">
+            
+                            <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                Quick View
+                            </a>
+                        </div>
+            
+                        <div class="block2-txt flex-w flex-t p-t-14">
+                            <div class="block2-txt-child1 flex-col-l ">
+                                <a href="{% url 'product-detail' %}?id={{ item.product.id }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                    {{ item.product.productName }}
+                                </a>
+            
+                                <span class="stext-105 cl3">
+                                    ${{ item.product.productPrice }}
+                                </span>
+                            </div>
+            
+                            <div class="block2-txt-child2 flex-r p-t-3">
+                                <a href="#" class="btn-addwish-b2 dis-block pos-relative js-remove-wishlist" data-product-id="{{ item.product.id }}">
+                                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center" style="width: 100%;"><br>
+                    <p style="font-size:18px; color:gray;">Your wishlist is empty.</p> <br> 
+                    <a href="{% url 'shop' %}" class="btn btn-primary" style="padding: 10px 20px; font-size: 16px;">Add Items</a>
+                </div>
+                {% endfor %}
+            
+
+            </div>
+        </div>
+    </section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize Isotope on your grid
+        var $grid = $('.isotope-grid').isotope({
+            itemSelector: '.isotope-item',
+            layoutMode: 'fitRows'
+        });
+        
+        $(".js-remove-wishlist").click(function (e) {
+            e.preventDefault();
+          
+            const product_id = $(this).data("product-id");
+            const $wishlistItem = $(this).closest(".isotope-item");
+          
+            Swal.fire({
+              title: "Are you sure?",
+              text: "Do you want to remove this item from your wishlist?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#d33",
+              cancelButtonColor: "#3085d6",
+              confirmButtonText: "Delete",
+              cancelButtonText: "Not now"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // If user confirms, proceed with AJAX call
+                $.ajax({
+                  type: "POST",
+                  url: "{% url 'remove_from_wishlist' %}",
+                  data: {
+                    product_id: product_id,
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                  },
+                  success: function (response) {
+                    if (response.status === "removed") {
+                      $grid.isotope('remove', $wishlistItem).isotope('layout').on('removeComplete', function () {
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Removed!',
+                          text: 'Item has been removed from your wishlist.',
+                          showConfirmButton: false,
+                          timer: 1500
+                        });
+          
+                        if ($(".isotope-item").length === 0) {
+                          $(".isotope-grid").html(`
+                            <div class="text-center" style="width: 100%;">
+                                <br>
+                                <p style="font-size:18px; color:gray;">Your wishlist is empty.</p> 
+                                <br> 
+                                <a href="{% url 'shop' %}" class="btn btn-primary" 
+                                   style="padding: 10px 20px; font-size: 16px;">
+                                   Continue Shopping
+                                </a>
+                            </div>
+                          `);
+                        }
+                      });
+                    }
+                  },
+                  error: function () {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Oops!",
+                      text: "Something went wrong. Please try again."
+                    });
+                  },
+                });
+              }
+            });
+          });
+          
+    });
+</script>
+
+
+    
+{% endblock body %}

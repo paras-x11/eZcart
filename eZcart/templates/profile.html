@@ -220,15 +220,15 @@
             <ul class="list-group">
               {% for item in wishlist_items %}
                 <li class="list-group-item">
-                  <strong>{{ item.product_name }}</strong>
-                  <a href="{{ item.product_url }}" class="btn btn-link float-end" target="_blank">View Product</a>
-                  <button class="btn btn-danger float-end me-2" onclick="removeItemFromWishlist(this)">Remove</button>
+                  <strong>{{ item.product.productName }}</strong>
+                  <a href="{% url 'product-detail' %}?id={{ item.product.id }}" class="btn btn-link float-end" target="_blank">View Product</a>
+                  <button class="btn btn-danger float-end me-2" onclick="removeItemFromWishlist(this)" data-product-id="{{ item.product.id }}">Remove</button>
                 </li>
               {% empty %}
                 <li class="list-group-item">Your wishlist is empty.</li>
               {% endfor %}
             </ul>
-            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addToWishlistModal">Add to Wishlist</button>
+            <a href="{% url 'shop' %}"> <button class="btn btn-primary mt-3" data-bs-toggle="modal">Add to Wishlist</button> <a>
           </div>
 
           <!-- Settings Section -->
@@ -368,32 +368,6 @@
 </div>
 
 
-<!-- Add to Wishlist Modal -->
-<div class="modal fade" id="addToWishlistModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add to Wishlist</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="{% url 'add_to_wishlist' %}" method="POST">
-          {% csrf_token %}
-          <div class="form-group">
-            <label>Product Name</label>
-            <input type="text" class="form-control" name="product_name" required>
-          </div>
-          <div class="form-group">
-            <label>Product URL</label>
-            <input type="url" class="form-control" name="product_url" required>
-          </div>
-          <button type="submit" class="btn btn-success">Add to Wishlist</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
   <!-- Edit Address Modal -->
   <div class="modal fade" id="editAddressModal">
     <div class="modal-dialog">
@@ -519,6 +493,39 @@
       window.location.href = "{% url 'index' %}";
     }
   </script>
+
+  <script>
+    function removeItemFromWishlist(button) {
+        const productId = button.getAttribute("data-product-id");
+        const listItem = button.closest("li");
+    
+        fetch("{% url 'remove_from_wishlist' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({ product_id: productId }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "removed") {
+                listItem.remove();
+    
+                // Check if list is empty
+                if (document.querySelectorAll("#wishlist ul.list-group li").length === 0) {
+                    document.querySelector("#wishlist ul.list-group").innerHTML = `
+                        <li class="list-group-item">Your wishlist is empty.</li>
+                    `;
+                }
+            } else {
+                alert("Could not remove item.");
+            }
+        })
+        .catch(err => alert("Something went wrong!"));
+    }
+    </script>
+    
 </body>
 
 </html>

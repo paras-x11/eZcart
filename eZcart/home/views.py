@@ -9,6 +9,7 @@ from django.conf import settings
 import razorpay
 from django.core.mail import send_mail
 from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here. 
@@ -40,32 +41,107 @@ def get_products_by_category(request):
     else:
         products = Product.objects.filter(category_id=cid)
 
-    product_list = [
+    cproducts = [
         {
-            'productId' : product.id,
+            'productId' : int(product.id),
             'productName': product.productName,
             'productPrice': product.productPrice,
             'productImage': { 'url': product.productImage.url }
         }
         for product in products
     ]
-    return JsonResponse({"cproducts": product_list})
+    wishlist_ids = []
+    if request.user.is_authenticated:
+        wishlist_ids = list(Wishlist.objects.filter(user=request.user).values_list('product_id', flat=True))
 
+    return JsonResponse({'cproducts': cproducts, 'wishlist_ids': wishlist_ids})
+
+def get_products_by_category_on_index(request):
+    cid = request.GET.get("cid")
+    limit = int(request.GET.get("limit", 16))  # Ensure 16 products
+
+    if cid == "":
+        products = Product.objects.all()[:limit]  
+    else:
+        products = Product.objects.filter(category_id=cid)[:limit]  
+
+    cproducts = [
+        {
+            'productId': int(product.id),
+            'productName': product.productName,
+            'productPrice': product.productPrice,
+            'productImage': {'url': product.productImage.url}
+        }
+        for product in products
+    ]
+
+    wishlist_ids = []
+    if request.user.is_authenticated:
+        wishlist_ids = list(Wishlist.objects.filter(user=request.user).values_list('product_id', flat=True))
+
+    return JsonResponse({'cproducts': cproducts, 'wishlist_ids': wishlist_ids})
+    
 def searchProduct(request):
     val = request.GET.get('val')
 
     products = Product.objects.filter(productName__istartswith=val)
 
-    product_list = [
+    cproducts = [
         {
-            'productId' : product.id,
+            'productId' : int(product.id),
             'productName': product.productName,
             'productPrice': product.productPrice,
             'productImage': { 'url': product.productImage.url }
         }
         for product in products
     ]
-    return JsonResponse({"cproducts": product_list})
+    wishlist_ids = []
+    if request.user.is_authenticated:
+        wishlist_ids = list(Wishlist.objects.filter(user=request.user).values_list('product_id', flat=True))
+
+    return JsonResponse({'cproducts': cproducts, 'wishlist_ids': wishlist_ids})
+
+
+@login_required(login_url="login_user")
+def wishlist(request):
+    user_wishlist = Wishlist.objects.filter(user=request.user).select_related("product")
+    return render(request, "wishlist.html", {"wishlist_items": user_wishlist})
+
+@login_required(login_url="login_user")
+def remove_from_wishlist(request):
+    product_id = request.POST.get("product_id")
+    try:
+        item = Wishlist.objects.get(user=request.user, product_id=product_id)
+        item.delete()
+        wishlist_count = Wishlist.objects.filter(user=request.user).count()
+        return JsonResponse({"status": "removed", "wishlist_count": wishlist_count})
+    except Wishlist.DoesNotExist:
+        return JsonResponse({"status": "not_found"})
+
+@csrf_exempt
+def toggle_wishlist(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "unauthenticated"}, status=403)
+
+        product_id = request.POST.get("product_id")
+        if not product_id:
+            return JsonResponse({"status": "error", "message": "Product ID is missing"}, status=400)
+
+        try:
+            product = Product.objects.get(id=product_id)
+            wishlist_item, created = Wishlist.objects.get_or_create(user=request.user, product=product)
+
+            if not created:
+                wishlist_item.delete()
+                return JsonResponse({"status": "removed"})
+            return JsonResponse({"status": "added"})
+
+        except Product.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Product not found"}, status=404)
+
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+
 
 @never_cache
 def product_detail(request):
@@ -82,8 +158,6 @@ def product_detail(request):
     }
     return render(request, "product-detail.html", context)
 
-
-
 def addToCart(request):
     pid = request.GET.get('pid') 
     qty = int( request.GET.get('qty') )
@@ -96,7 +170,12 @@ def addToCart(request):
     try:
         user = request.user 
         product = Product.objects.get(pk=pid)
-
+        product_data = {
+            'id': product.id,
+            'productName': product.productName,
+            'productPrice': str(product.productPrice),  # Convert Decimal to string for JSON compatibility
+            'productQty': product.productQty
+        }
         # Get the user's cart, or create a new one if it doesn't exist
         cart, created = Cart.objects.get_or_create(user=user)
         
@@ -110,8 +189,8 @@ def addToCart(request):
         else:
             # Create a new cart item if not already in the cart
             CartItem.objects.create(cart=cart, product=product, qty=qty)
-            
-        return JsonResponse({"success": True, "message": "Product added to cart"})
+        cart_count = CartItem.objects.filter(cart=cart).count()    
+        return JsonResponse({"success": True, "message": "Product added to cart", "cart_count": cart_count, "product": product_data })
     
     except Product.DoesNotExist:
         return JsonResponse({"error": "Product not found"}, status=404)
@@ -127,7 +206,6 @@ def remove_from_cart(request):
             return JsonResponse({"status": "error", "message": "Item not found"})
     
     return JsonResponse({"status": "error", "message": "Invalid request"})
-
 
 @never_cache
 @login_required(login_url="login_user")
@@ -155,8 +233,6 @@ def shoping_cart(request):
 
     return render(request, "shoping-cart.html", context)
 
-    
-
 def changeQty(request):
     data = request.GET
     qty = int(data.get("qty"))
@@ -172,7 +248,6 @@ def changeQty(request):
     cart_item.save()
 
     return JsonResponse({"status": "success", "new_qty": cart_item.qty, "total": cart_item.sub_total()})
-
 
 @never_cache
 @login_required(login_url="login_user")
@@ -197,7 +272,6 @@ def checkout(request):
     }
 
     return render(request, 'checkout.html', context)
-
 
 def makePayment(request):
     amount_str = request.GET.get("amount")
@@ -279,7 +353,6 @@ def create_order(request):
     
     return JsonResponse({"status": "success", "redirect_url": f"/order-success/{order.id}/"})          # **Redirect to order-success page with order ID**
 
-
 @login_required(login_url="login_user")
 def order_success(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
@@ -297,7 +370,6 @@ def order_success(request, order_id):
         'order_number': order.id,
     }
     return render(request, 'order-success.html', context)
-
 
 @login_required(login_url="login_user")
 def order_detail(request, order_id):
@@ -321,13 +393,6 @@ def order_detail(request, order_id):
     return render(request, 'order_detail.html', context)
 
 
-
-
-
-
-def whishlist(request):
-    return render(request, "whishlist.html")
-
 def features(request):
     return render(request, "features.html")
 
@@ -342,6 +407,8 @@ def about(request):
 
 def contact(request):
     return render(request, "contact.html")
+
+
 
 
 def login_user(request):
@@ -414,12 +481,7 @@ def profile(request):
     wishlist_items = Wishlist.objects.filter(user=request.user)
     orders = Order.objects.filter(user=request.user)
 
-    context = {
-        'addresses': addresses,
-        'wishlist_items': wishlist_items,
-        'orders': orders,
-        'user': request.user,  # Send user data
-    }
+    context = { 'addresses': addresses, 'wishlist_items': wishlist_items, 'orders': orders, 'user': request.user, }
     return render(request, 'profile.html', context)
 
 @login_required(login_url="login_user")
@@ -484,8 +546,6 @@ def add_to_wishlist(request):
         return redirect('profile')
 
 
-
-
 def my_orders(request):
     context = {
         # orders = Order.objects.filter(user=request.user).order_by('-created_at')
@@ -506,6 +566,8 @@ def my_wishlist(request):
         # wishlist_items = Wishlist.objects.filter(user=request.user)
     } 
     return render(request, 'my_wishlist.html', context)
+
+
 
 
 

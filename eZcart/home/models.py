@@ -84,8 +84,17 @@ class Address(models.Model):
 
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product_name = models.CharField(max_length=200)
-    product_url = models.URLField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="wishlisted_by")
+    added_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')  # Prevent duplicate entries
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.productName}"
+
+# Property to get wishlist products for the user
+User.add_to_class("wishlist_products", models.ManyToManyField(Product, through=Wishlist, related_name="wishlist_users"))
 
 # Order Model (new)
 class Order(models.Model):

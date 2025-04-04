@@ -186,16 +186,15 @@
 
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					<button onclick="get_products_by_category('')" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+					<button onclick="get_products_by_category_on_index('')" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
 						All Products
 					</button>
 
 					{% for i in categories %}
-					<button onclick="get_products_by_category('{{ i.id }}')" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
+					<button onclick="get_products_by_category_on_index('{{ i.id }}')" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
 						{{ i.categoryName }}
 					</button>
 					{% endfor %}
-
 				</div>
 
 				<div class="flex-w flex-c-m m-tb-10">

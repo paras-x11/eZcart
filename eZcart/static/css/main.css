@@ -2087,13 +2087,14 @@ input.num-product::-webkit-inner-spin-button {
   opacity: 0;
 }
 
-.js-addedwish-b2 .icon-heart2 {
+.btn-addwish-b2.active .icon-heart2 {
   opacity: 1;
 }
 
-.js-addedwish-b2 .icon-heart1 {
+.btn-addwish-b2.active .icon-heart1 {
   opacity: 0;
 }
+
 
 /*---------------------------------------------*/
 .label-new {

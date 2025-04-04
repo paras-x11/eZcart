@@ -97,7 +97,7 @@
         <nav class="limiter-menu-desktop container">
           <!-- Logo desktop -->
           <a href="#" class="logo">
-            <img src="images/icons/logo-01.png" alt="IMG-LOGO" />
+            <img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO" />
           </a>
 
           <!-- Menu desktop -->
@@ -140,30 +140,9 @@
             </div>
 
             <!-- Wishlist Button -->
-            <a href="#" id="wishlistBtn1" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                data-notify="0">
+            <a href="#" id="wishlistBtn1" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="{{ wishlist_count }}">
                 <i class="zmdi zmdi-favorite-outline"></i>
             </a>
-
-            <!-- Bootstrap Login Modal for Desktop -->
-            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content text-center">
-                      <div class="modal-header">
-                          <h5 class="modal-title w-100" id="loginModalLabel">Login Required</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                      <div class="modal-body">
-                          <p class="stext-102 cl6">⚠️ You need to log in to access this feature.</p>
-                      </div>
-                      <div class="modal-footer">
-                          <a href="{% url 'login_user' %}" class="btn btn-primary w-100">Login</a>
-                      </div>
-                  </div>
-              </div>
-            </div>
 
           </div>
         </nav>
@@ -174,7 +153,7 @@
     <div class="wrap-header-mobile">
       <!-- Logo moblie -->
       <div class="logo-mobile">
-        <a href="index"><img src="images/icons/logo-01.png" alt="IMG-LOGO" /></a>
+        <a href=""><img src="{% static 'images/icons/logo-01.png' %}"alt="IMG-LOGO" /></a>
       </div>
 
       <!-- Icon header -->
@@ -189,11 +168,10 @@
             <i class="zmdi zmdi-shopping-cart"></i>
         </div>
 
-        <!-- Wishlist Button -->
-        <a href="#" id="wishlistBtn1" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-        data-notify="0">
-        <i class="zmdi zmdi-favorite-outline"></i>
-        </a>
+            <!-- Wishlist Button -->
+            <a href="#" id="wishlistBtn1" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="{{ wishlist_count }}">
+              <i class="zmdi zmdi-favorite-outline"></i>
+          </a>
       </div>
 
       <!-- Button show menu -->
@@ -266,7 +244,7 @@
     <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
       <div class="container-search-header">
         <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-          <img src="images/icons/icon-close2.png" alt="CLOSE" />
+          <img src="{% static 'images/icons/icon-close2.png' %}" alt="CLOSE" />
         </button>
 
         <form class="wrap-search-header flex-w p-l-15">
@@ -297,7 +275,7 @@
         <ul class="header-cart-wrapitem w-full">
           <li class="header-cart-item flex-w flex-t m-b-12">
             <div class="header-cart-item-img">
-              <img src="images/item-cart-01.jpg" alt="IMG" />
+              <img src="{% static 'images/item-cart-01.jpg' %}" alt="IMG" />
             </div>
 
             <div class="header-cart-item-txt p-t-8">
@@ -311,7 +289,7 @@
 
           <li class="header-cart-item flex-w flex-t m-b-12">
             <div class="header-cart-item-img">
-              <img src="images/item-cart-02.jpg" alt="IMG" />
+              <img src="{% static 'images/item-cart-02.jpg' %}" alt="IMG" />
             </div>
 
             <div class="header-cart-item-txt p-t-8">
@@ -325,7 +303,7 @@
 
           <li class="header-cart-item flex-w flex-t m-b-12">
             <div class="header-cart-item-img">
-              <img src="images/item-cart-03.jpg" alt="IMG" />
+              <img src="{% static 'images/item-cart-03.jpg' %}" alt="IMG" />
             </div>
 
             <div class="header-cart-item-txt p-t-8">
@@ -456,23 +434,23 @@
       <div class="p-t-40">
         <div class="flex-c-m flex-w p-b-18">
           <a href="#" class="m-all-1">
-            <img src="images/icons/icon-pay-01.png" alt="ICON-PAY" />
+            <img src="{% static 'images/icons/icon-pay-01.png' %}" alt="ICON-PAY" />
           </a>
 
           <a href="#" class="m-all-1">
-            <img src="images/icons/icon-pay-02.png" alt="ICON-PAY" />
+            <img src="{% static 'images/icons/icon-pay-02.png' %}" alt="ICON-PAY" />
           </a>
 
           <a href="#" class="m-all-1">
-            <img src="images/icons/icon-pay-03.png" alt="ICON-PAY" />
+            <img src="{% static 'images/icons/icon-pay-03.png' %}" alt="ICON-PAY" />
           </a>
 
           <a href="#" class="m-all-1">
-            <img src="images/icons/icon-pay-04.png" alt="ICON-PAY" />
+            <img src="{% static 'images/icons/icon-pay-04.png' %}" alt="ICON-PAY" />
           </a>
 
           <a href="#" class="m-all-1">
-            <img src="images/icons/icon-pay-05.png" alt="ICON-PAY" />
+            <img src="{% static 'images/icons/icon-pay-05.png' %}" alt="ICON-PAY" />
           </a>
         </div>
 
@@ -549,35 +527,35 @@
   <!--===============================================================================================-->
   <script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
   <script>
-    $(".js-addwish-b2").on("click", function (e) {
-      e.preventDefault();
-    });
+    // $(".js-addwish-b2").on("click", function (e) {
+    //   e.preventDefault();
+    // });
 
-    $(".js-addwish-b2").each(function () {
-      var nameProduct = $(this).parent().parent().find(".js-name-b2").html();
-      $(this).on("click", function () {
-        swal(nameProduct, "is added to wishlist !", "success");
+    // $(".js-addwish-b2").each(function () {
+    //   var nameProduct = $(this).parent().parent().find(".js-name-b2").html();
+    //   $(this).on("click", function () {
+    //     swal(nameProduct, "is added to wishlist !", "success");
 
-        $(this).addClass("js-addedwish-b2");
-        $(this).off("click");
-      });
-    });
+    //     $(this).addClass("js-addedwish-b2");
+    //     $(this).off("click");
+    //   });
+    // });
 
-    $(".js-addwish-detail").each(function () {
-      var nameProduct = $(this)
-        .parent()
-        .parent()
-        .parent()
-        .find(".js-name-detail")
-        .html();
+    // $(".js-addwish-detail").each(function () {
+    //   var nameProduct = $(this)
+    //     .parent()
+    //     .parent()
+    //     .parent()
+    //     .find(".js-name-detail")
+    //     .html();
 
-      $(this).on("click", function () {
-        swal(nameProduct, "is added to wishlist !", "success");
+    //   $(this).on("click", function () {
+    //     swal(nameProduct, "is added to wishlist !", "success");
 
-        $(this).addClass("js-addedwish-detail");
-        $(this).off("click");
-      });
-    });
+    //     $(this).addClass("js-addedwish-detail");
+    //     $(this).off("click");
+    //   });
+    // });
 
     /*---------------------------------------------*/
 
@@ -653,155 +631,207 @@
   <!--===============================================================================================-->
   <!-- Your Login & Redirect Script -->
   <script>
-    var $jq = jQuery.noConflict();  // Ensure jQuery compatibility
+    var $jq = jQuery.noConflict(); // Ensure jQuery compatibility
 
     $jq(document).ready(function () {
         var isLoggedIn = "{{ request.user.is_authenticated }}" === "True";
 
         function checkLoginAndRedirect(targetUrl) {
             if (isLoggedIn) {
-                window.location.href = targetUrl;  // Redirect to the given URL
+                window.location.href = targetUrl; // Redirect to the given URL
             } else {
-                console.log("User not logged in, showing login modal...");
-                if (window.innerWidth <= 990) {  // For mobile screens
-                    console.log("mobile login modal");
-                    window.location.href = "login_user";
-                } else {  // For larger screens (desktops)
-                    $jq('#loginModal').modal('show');  // Show main login modal
-                }
+                console.log("User not logged in, showing login alert...");
+
+                swal({
+                    title: "Login Required",
+                    text: "You need to log in to continue.",
+                    icon: "warning",
+                    buttons: {
+                        cancel: "Cancel",
+                        confirm: "Login",
+                    },
+                }).then((willLogin) => {
+                    if (willLogin) {
+                        window.location.href = "login_user"; // Redirect to login page
+                    }
+                });
             }
         }
 
         // Wishlist Click Event
         $jq("#wishlistBtn1, #wishlistBtn2").click(function (e) {
-            e.preventDefault();  // Prevent default <a> behavior
-            checkLoginAndRedirect("whishlist");
+            e.preventDefault(); // Prevent default <a> behavior
+            checkLoginAndRedirect("wishlist");
         });
 
         // Cart Click Event (for both cart buttons)
         $jq("#cartBtn1, #cartBtn2").click(function () {
-            checkLoginAndRedirect("shoping-cart");  // <-- comment this line for cart modal view
+            checkLoginAndRedirect("shoping-cart"); // <-- comment this line for cart modal view
         });
     });
 </script>
+
+  
 
   <!--===============================================================================================-->
   <script src="{% static 'js/main.js' %}"></script>
   <!--===============================================================================================-->
   <script>
-      var $jq = jQuery.noConflict();
-    
-      // Initialize Isotope after DOM is fully loaded
-      // document.addEventListener("DOMContentLoaded", function () {
-      //   var $grid = $jq('.isotope-grid').isotope({
-      //     itemSelector: '.isotope-item',
-      //     layoutMode: 'fitRows'
-      //   });
-    
-      //   // Fetch initial products
-      //   get_products_by_category();
-      // });
+    var $jq = jQuery.noConflict();
 
-      document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
         var $grid = $jq('.isotope-grid');
-        
-        // Wait for all images to be fully loaded before initializing Isotope
+
+        // Wait for images to be fully loaded before initializing Isotope
         $grid.imagesLoaded(function () {
-          $grid.isotope({
-            itemSelector: '.isotope-item',
-            layoutMode: 'fitRows',
-          });
+            $grid.isotope({
+                itemSelector: '.isotope-item',
+                layoutMode: 'fitRows',
+            });
         });
 
-        // Fetch initial products
-        get_products_by_category();
+        // Fetch initial products based on the page type
+        if ($jq("#pdata").length > 0) {
+            get_products_by_category_on_index();
+        } else {
+            get_products_by_category();
+        }
+    });
+
+    const get_products_by_category = (cid = "") => {
+        $jq("#pdata").empty();
+
+        $jq.get("get_products_by_category", { cid }, function (rt) {
+            renderProducts(rt.cproducts, "#pdata_shop", rt.wishlist_ids);
+        });
+    };
+
+    const get_products_by_category_on_index = (cid = "") => {
+        $jq("#pdata").empty();
+        $jq.get("get_products_by_category_on_index", { cid, limit: 16 }, function (rt) {
+            console.log("Backend response", rt); // <- check this!
+            renderProducts(rt.cproducts, "#pdata", rt.wishlist_ids);
+        });
+    };
+
+    const searchProduct = (val) => {
+        $jq("#pdata").empty();
+
+        $jq.get("searchProduct", { val }, function (rt) {
+            renderProducts(rt.cproducts, "#pdata, #pdata_shop", rt.wishlist_ids);
+        });
+    };
+
+    const renderProducts = (products, container, wishlist_ids = []) => {
+      let row = "";
+      products.forEach((product) => {
+        let isWishlisted = wishlist_ids.includes(parseInt(product.productId));
+        console.log("wishlist_ids from backend:", wishlist_ids);
+        console.log("productId during rendering:", product.productId);
+        console.log("isWishlisted:", isWishlisted);
+        console.log("Appending class for product:", product.productId, "->", isWishlisted ? "active" : "not active");
+
+          row += `
+              <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+                  <div class="block2">
+                      <div class="block2-pic hov-img0">
+                          <a href="product-detail?id=${product.productId}"> 
+                              <img src="${product.productImage.url}" alt="IMG-PRODUCT" style="height:360.35px;">
+                          </a>
+                          <a href="product-detail?id=${product.productId}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                              Quick View
+                          </a>
+                      </div>
+                      <div class="block2-txt flex-w flex-t p-t-14">
+                          <div class="block2-txt-child1 flex-col-l">
+                              <a href="product-detail?id=${product.productId}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                  ${product.productName}
+                              </a>
+                              <span class="stext-105 cl3">&#36;${product.productPrice}</span>
+                          </div>
+                          <div class="block2-txt-child2 flex-r p-t-3">
+                              <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 ${isWishlisted ? 'active' : ''}" data-product-id="${product.productId}">
+                                  <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
+                                  <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>`;
+        });
+
+        $jq(container).html(row);
+
+        // Reinitialize Isotope after adding new items
+        $jq('.isotope-grid').imagesLoaded().done(function () {
+            $jq('.isotope-grid').isotope('reloadItems').isotope();
+        });
+
+        // Bind wishlist click events
+        bindWishlistEvents();
+    };
+
+    const bindWishlistEvents = () => {
+      $jq(".js-addwish-b2").off("click").on("click", function (e) {
+          e.preventDefault();
+
+          const $btn = $jq(this);
+          const productId = $btn.data("product-id");
+          const nameProduct = $btn.closest(".block2-txt").find(".js-name-b2").html();
+
+          $jq.ajax({
+              url: "{% url 'toggle-wishlist' %}",
+              method: "POST",
+              data: { product_id: productId },
+              headers: { "X-CSRFToken": getCookie("csrftoken") },
+              success: function (response) {
+                  if (response.status === "added") {
+                      // $btn.addClass("active");
+                      $btn.addClass("active btn-addwish-b2");
+                      $btn.find(".icon-heart1").css("opacity", 0);
+                      $btn.find(".icon-heart2").css("opacity", 1);
+                      swal({title: "Added to Wishlist!", text: nameProduct + " has been added to your wishlist.", icon: "success", button: "OK",});
+
+                  } else if (response.status === "removed") {
+                      $btn.removeClass("active");
+                      $btn.find(".icon-heart1").css("opacity", 1);
+                      $btn.find(".icon-heart2").css("opacity", 0);
+                      swal({ title: "Removed from Wishlist!", text: nameProduct + " has been removed from your wishlist.", icon: "warning", button: "OK",});
+
+                  } else if (response.status === "unauthenticated") {
+                      swal({title: "Login Required!", text: "Please log in to use wishlist feature.", icon: "info", button: "OK",});
+                  }
+              }
+          });
       });
 
-    
-      const get_products_by_category = (cid) => {
-        $jq("#pdata").empty();
-    
-        if (cid === undefined) {
-          cid = "";
-        }
-    
-        $jq.get("get_products_by_category", { cid }, function (rt) {
-          var row = "";
-          for (var i in rt.cproducts) {
-            row += `<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-                <div class="block2">
-                  <div class="block2-pic hov-img0">
-                    <a href="product-detail?id=${rt.cproducts[i].productId}"> <img src="${rt.cproducts[i].productImage.url}" alt="IMG-PRODUCT" style="height:360.35px ;"> </a>
-                    <a href="product-detail?id=${rt.cproducts[i].productId}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                      Quick View
-                    </a>
-                  </div>
-                  <div class="block2-txt flex-w flex-t p-t-14">
-                    <div class="block2-txt-child1 flex-col-l">
-                      <a href="product-detail?id=${rt.cproducts[i].productId}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                        ${rt.cproducts[i].productName}
-                      </a>
-                      <span class="stext-105 cl3">&#36;${rt.cproducts[i].productPrice}</span>
-                    </div>
-                    <div class="block2-txt-child2 flex-r p-t-3">
-                      <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-                        <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>`;
+      // CSRF token helper
+      function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let cookie of cookies) {
+                  cookie = cookie.trim();
+                  if (cookie.startsWith(name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
           }
-          $jq("#pdata").html(row);
-          $jq('.isotope-grid').isotope('reloadItems').isotope();
-        });
-      };
-    
-      const searchProduct = (val) => {
-        $jq("#pdata").empty();
-    
-        $jq.get("searchProduct", { val }, function (rt) {
-          var row = "";
-          for (var i in rt.cproducts) {
-            row += `<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-                <div class="block2">
-                  <div class="block2-pic hov-img0">
-                    <a href="product-detail?id=${rt.cproducts[i].productId}"> <img src="${rt.cproducts[i].productImage.url}" alt="IMG-PRODUCT" style="height:360.35px;"> </a>
-                    <a href="product-detail?id=${rt.cproducts[i].productId}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                      Quick View
-                    </a>
-                  </div>
-                  <div class="block2-txt flex-w flex-t p-t-14">
-                    <div class="block2-txt-child1 flex-col-l">
-                      <a href="product-detail?id=${rt.cproducts[i].productId}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                        ${rt.cproducts[i].productName}
-                      </a>
-                      <span class="stext-105 cl3">&#36;${rt.cproducts[i].productPrice}</span>
-                    </div>
-                    <div class="block2-txt-child2 flex-r p-t-3">
-                      <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-                        <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>`;
-          }
-          $jq("#pdata").html(row);
-          $jq('.isotope-grid').imagesLoaded().done(function () {
-              $jq('.isotope-grid').isotope('reloadItems').isotope();
-          });
+          return cookieValue;
+      }
 
-        });
-      };
+    $jq(".js-addwish-detail").off("click").on("click", function () {
+        let nameProduct = $jq(this).closest(".block2-txt").find(".js-name-detail").html();
+        swal({title: "Added to Wishlist!", text: nameProduct + " has been added to your wishlist.", icon: "success", button: "OK",});
+        $jq(this).addClass("js-addedwish-detail").off("click");
+    });
+};
 
-      jQuery.event.special.unload = {
-        setup: function() { return false; }
-      };
 
-  </script>
+</script>
+
+
   <!--===============================================================================================-->
   
   {% block js %}{% endblock js %}

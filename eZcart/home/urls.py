@@ -1,19 +1,3 @@
-"""
-URL configuration for eZcart project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from home import views
@@ -33,7 +17,10 @@ urlpatterns = [
     path('makePayment', views.makePayment, name="makePayment"),
     path('create-order/', views.create_order, name="create-order"),
     path('order-success/<int:order_id>/', views.order_success, name="order_success"),
-    path('whishlist', views.whishlist, name="whishlist"),
+    path('order-success/<int:order_id>/', views.order_success, name="order_success"),
+    path("wishlist", views.wishlist, name="wishlist"),
+    path("remove-from-wishlist/", views.remove_from_wishlist, name="remove_from_wishlist"),
+    path("toggle-wishlist", views.toggle_wishlist, name="toggle-wishlist"),
     path('product-detail', views.product_detail, name="product-detail"),
     path('features', views.features, name="features"),
     path('blog', views.blog, name="blog"),
@@ -46,6 +33,7 @@ urlpatterns = [
     path('logout', views.logout_user, name="logout"),
     path('help', views.help, name="help"),
     path('get_products_by_category', views.get_products_by_category, name="get_products_by_category"),
+    path('get_products_by_category_on_index', views.get_products_by_category_on_index, name='get_products_by_category_on_index'),
     path('searchProduct', views.searchProduct, name="searchProduct"),
 
     path('profile', views.profile, name="profile"),
@@ -53,6 +41,7 @@ urlpatterns = [
     path('order/<int:order_id>/', views.order_detail, name='order_detail'),
     path('add_address/', views.add_address, name='add_address'),
     path('add_to_wishlist/', views.add_to_wishlist, name='add_to_wishlist'),
+
     # path('profile/', include([
     #     path('my_orders', views.my_orders, name="my_orders"),
     #     path('my_wishlist', views.my_wishlist, name="my_wishlist"),

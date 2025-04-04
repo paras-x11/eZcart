@@ -399,45 +399,8 @@
 		</div>
 	</section>
 	
-	<!-- Bootstrap Login Modal -->
-	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content text-center">
-				<div class="modal-header">
-					<h5 class="modal-title w-100" id="loginModalLabel">Login Required</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p class="stext-102 cl6">⚠️ You need to log in to add items to the cart.</p>
-				</div>
-				<div class="modal-footer">
-					<a href="{% url 'login_user' %}" class="btn btn-primary w-100">Login</a>
-				</div>
-			</div>
-		</div>
-	</div>
 
-<!-- Mobile Login Modal -->
-<div class="modal fade" id="mobileLoginModal" tabindex="-1" role="dialog" aria-labelledby="mobileLoginModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content text-center">
-			<div class="modal-header">
-				<h5 class="modal-title w-100" id="mobileLoginModalLabel">Login Required</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<p class="stext-102 cl6">⚠️ You need to log in to add items to the cart.</p>
-			</div>
-			<div class="modal-footer">
-				<a href="{% url 'login_user' %}" class="btn btn-primary w-100">Login</a>
-			</div>
-		</div>
-	</div>
-</div>
+
 	<!-- Modal1 -->
 	<!--
 	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
@@ -599,64 +562,70 @@
 {% block js %}
 
 <script>
+    var $jq = jQuery.noConflict(); // Ensure jQuery compatibility
+
     $jq(document).ready(function () {
-        $jq('#loginModal').on('show.bs.modal', function () {
-            $jq(this).find('.modal-dialog').css({
-                'margin': '0',
-                'max-width': '400px',
-                'width': '90%'
-            });
-        });
+        console.log("Script loaded!");
 
-        // Mobile-specific modal styling
-        $jq('#mobileLoginModal').on('show.bs.modal', function () {
-            $jq(this).find('.modal-dialog').css({
-                'margin-top': '50px',
-                'max-width': '90%',  // Full width for mobile screens
-                'width': '90%'       // Full width for mobile screens
-            });
-        });
-    });
+        window.checkLoginAndAddToCart = function(productId, productName) {  // ✅ Accepts product name
+            console.log("Function called!");
 
-    function checkLoginAndAddToCart(productId) {
-        console.log("Function called!");
+            var isLoggedIn = {{ request.user.is_authenticated|lower }};  // Django boolean
+            var quantity = parseInt($jq('#qty').val()) || 1;  // Ensure valid number
 
-        var isLoggedIn = {{ request.user.is_authenticated|lower }};  // Django boolean passed correctly
-        var quantity = parseInt($jq('#qty').val()) || 1;  // Ensure valid number
-
-        if (isLoggedIn) {
-            console.log("User is logged in, adding to cart:", productId);
-            addToCart(productId, quantity);		
-        } else {
-            console.log("User not logged in, showing login modal...");
-            if (window.innerWidth <= 992) {
-                // For mobile screens, show the mobile login modal
-                $jq('#mobileLoginModal').modal('show');
+            if (isLoggedIn) {
+                console.log("User is logged in, adding to cart:", productId);
+                addToCart(productId, productName, quantity);  // ✅ Pass product name
             } else {
-                // For larger screens, show the main login modal
-                $jq('#loginModal').modal('show');
+                console.log("User not logged in, showing SweetAlert...");
+                swal({
+                    title: "Login Required",
+                    text: "You need to login to add items to the cart.",
+                    icon: "warning",
+                    buttons: {
+                        cancel: "Cancel",
+                        confirm: "Login"
+                    },
+                    dangerMode: true,
+                }).then((willLogin) => {
+                    if (willLogin) {
+                        console.log("Redirecting to login page...");
+                        window.location.href = "{% url 'login_user' %}";  
+                    }
+                });
             }
         }
-    }
 
-    function addToCart(productId, qty) {
-        if (!productId || qty <= 0) {
-            console.error("Invalid Product ID or quantity!");
-            return;
+        function addToCart(productId, productName, qty) {
+            if (!productId || qty <= 0) {
+                console.error("Invalid Product ID or quantity!");
+                return;
+            }
+
+            $jq.get("/addToCart", { pid: productId, qty: qty }, function (response) {
+                if (response.success) {
+                    updateCartCount(response.cart_count); 
+
+                    swal({
+                        title: "Added to Cart!",
+                        text: `"${response.product.productName}" has been added to your cart.`,
+                        icon: "success",
+                        button: "OK"
+                    });
+
+                } else {
+                    swal("Error!", response.error || "Failed to add product!", "error");
+                }
+            }).fail(function () {
+                swal("Error!", "Something went wrong!", "error");
+            });
         }
 
-        $jq.get("/addToCart", { pid: productId, qty: qty }, function (response) {
-            if (response.success) {
-				swal("Success!", "Product added to cart!", "success").then(function() {
-					location.reload(); 
-				});
-			} else {
-                swal("Error!", response.error || "Failed to add product!", "error");
-            }
-        }).fail(function () {
-            swal("Error!", "Something went wrong!", "error");
-        });
-    }
-
+        function updateCartCount(count) {
+            let cartBtn = $jq("#cartBtn1");
+            cartBtn.attr("data-notify", count);
+        }
+    });
 </script>
+
 {% endblock js %}
