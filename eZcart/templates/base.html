@@ -640,7 +640,7 @@
             if (isLoggedIn) {
                 window.location.href = targetUrl; // Redirect to the given URL
             } else {
-                console.log("User not logged in, showing login alert...");
+                // console.log("User not logged in, showing login alert...");
 
                 swal({
                     title: "Login Required",
@@ -709,7 +709,7 @@
     const get_products_by_category_on_index = (cid = "") => {
         $jq("#pdata").empty();
         $jq.get("get_products_by_category_on_index", { cid, limit: 16 }, function (rt) {
-            console.log("Backend response", rt); // <- check this!
+            // console.log("Backend response", rt); // <- check this!
             renderProducts(rt.cproducts, "#pdata", rt.wishlist_ids);
         });
     };
@@ -726,10 +726,10 @@
       let row = "";
       products.forEach((product) => {
         let isWishlisted = wishlist_ids.includes(parseInt(product.productId));
-        console.log("wishlist_ids from backend:", wishlist_ids);
-        console.log("productId during rendering:", product.productId);
-        console.log("isWishlisted:", isWishlisted);
-        console.log("Appending class for product:", product.productId, "->", isWishlisted ? "active" : "not active");
+        // console.log("wishlist_ids from backend:", wishlist_ids);
+        // console.log("productId during rendering:", product.productId);
+        // console.log("isWishlisted:", isWishlisted);
+        // console.log("Appending class for product:", product.productId, "->", isWishlisted ? "active" : "not active");
 
           row += `
               <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
@@ -771,6 +771,24 @@
         bindWishlistEvents();
     };
 
+    // CSRF token helper
+    const getCookie = (name) => {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    };
+
+    const toggleWishlistUrl = "{% url 'toggle-wishlist' %}";
+
     const bindWishlistEvents = () => {
       $jq(".js-addwish-b2").off("click").on("click", function (e) {
           e.preventDefault();
@@ -780,7 +798,7 @@
           const nameProduct = $btn.closest(".block2-txt").find(".js-name-b2").html();
 
           $jq.ajax({
-              url: "{% url 'toggle-wishlist' %}",
+              url: toggleWishlistUrl,
               method: "POST",
               data: { product_id: productId },
               headers: { "X-CSRFToken": getCookie("csrftoken") },
@@ -801,25 +819,29 @@
                   } else if (response.status === "unauthenticated") {
                       swal({title: "Login Required!", text: "Please log in to use wishlist feature.", icon: "info", button: "OK",});
                   }
+              },
+              error: function (xhr) {
+                  if (xhr.status === 403 || xhr.responseText.includes("<title>Login")) {
+                      swal({
+                          title: "Login Required!",
+                          text: "Please log in to use wishlist feature.",
+                          icon: "info",
+                          buttons: {
+                              cancel: "Cancel",
+                              login: {
+                                  text: "Login",
+                                  value: "login"
+                              }
+                          }
+                      }).then((value) => {
+                          if (value === "login") {
+                              window.location.href = "/login_user";
+                          }
+                      });
+                  }
               }
           });
       });
-
-      // CSRF token helper
-      function getCookie(name) {
-          let cookieValue = null;
-          if (document.cookie && document.cookie !== '') {
-              const cookies = document.cookie.split(';');
-              for (let cookie of cookies) {
-                  cookie = cookie.trim();
-                  if (cookie.startsWith(name + '=')) {
-                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                      break;
-                  }
-              }
-          }
-          return cookieValue;
-      }
 
     $jq(".js-addwish-detail").off("click").on("click", function () {
         let nameProduct = $jq(this).closest(".block2-txt").find(".js-name-detail").html();

@@ -118,12 +118,13 @@ def remove_from_wishlist(request):
     except Wishlist.DoesNotExist:
         return JsonResponse({"status": "not_found"})
 
-@csrf_exempt
-def toggle_wishlist(request):
-    if request.method == "POST":
-        if not request.user.is_authenticated:
-            return JsonResponse({"status": "unauthenticated"}, status=403)
 
+def toggle_wishlist(request):
+    if not request.user.is_authenticated:
+        print("unauth")
+        return JsonResponse({"status": "unauthenticated"}, status=403)
+    
+    if request.method == "POST":
         product_id = request.POST.get("product_id")
         if not product_id:
             return JsonResponse({"status": "error", "message": "Product ID is missing"}, status=400)
