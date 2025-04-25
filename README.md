@@ -1,5 +1,8 @@
 # 🛒 eZcart — Online Shopping E-Commerce Website
 
+# Preview:
+https://parasx11.pythonanywhere.com
+
 **eZcart** is a modern, user-friendly online shopping platform built with **Django**. It offers customers a seamless experience for browsing products, managing their cart, and placing orders — designed to be fast, responsive, and easy to use.
 
 ---
